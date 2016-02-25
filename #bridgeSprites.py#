@@ -3,6 +3,12 @@ from colors import *
 
 PATH = './drawing/'
 
+    screenSize = (800,800)
+    screen = pygame.display.set_mode(screenSize)
+    clock  = pygame.time.Clock()
+    fps = 30 # frames per seconds                                               
+
+
 
 class Board(pygame.sprite.Sprite):    
     def __init__(self, size=(6,6)):
@@ -12,7 +18,7 @@ class Board(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def draw(self, screen):
-        self.rect.center = (400,400)
+        self.rect.center
         screen.blit(self.image,self.rect)
 
 class Ship(pygame.sprite.Sprite):
