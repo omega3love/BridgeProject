@@ -32,11 +32,7 @@ class Server(Protocol):
 	""" If data is delivered from a client to the server,
 	    deliver the data to other clients """
         sender = self.transport.getPeer().host # address of data sender
-        """ for test """
-        #==============#
-        try:
-	    print data
-	#==============#
+
         for clients in self.factory.clients:
             if not clients.peer.host == sender:
                 clients.transport.write(data)
