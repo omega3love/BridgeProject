@@ -7,10 +7,14 @@
 import pygame
 from colors import *
 from bridgeSprites import *
+from bridgeFunction import *
 
+screenWidth = 600;
+screenHeight = 600;
+gridSize =6;
 
 def main():
-    screenSize = (800,800)
+    screenSize = (screenWidth,screenHeight)
     screen = pygame.display.set_mode(screenSize)
     clock  = pygame.time.Clock()
     fps = 30 # frames per seconds       
