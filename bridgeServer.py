@@ -57,3 +57,5 @@ PORT = 50000 # port of the server
 reactor.listenTCP(PORT, factory)
 reactor.run()
 
+print "Server is now closed"
+reactor.stop()
