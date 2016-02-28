@@ -2,10 +2,19 @@
 
 from twisted.internet.protocol import Protocol, Factory
 from twisted.internet import reactor
+import socket
 from time import sleep
 
 myhost = '127.0.0.1'
 
+try:
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("gmail.com",80))
+    myhostip = s.getsockname()[0]
+    s.close()
+except:
+    print "Internet disconnected?"
+    
 class Server(Protocol):
 
     def connectionMade(self):
@@ -55,7 +64,6 @@ factory.host = None
 
 PORT = 50000 # port of the server
 reactor.listenTCP(PORT, factory)
+print "[ Server info ]\nServer IP : %s\nPort : %d" %(myhostip, PORT)
+print "Server is now running.\nPress [ Ctrl-c ] to close the server."
 reactor.run()
-
-print "Server is now closed"
-reactor.stop()

@@ -9,8 +9,8 @@ class bridgeConnection():
     
     def __init__(self):
 		
-	#self.HOST = raw_input("HOST IP : ")
-	self.HOST = "143.248.12.11"
+	self.HOST = raw_input("HOST IP : ")
+	#self.HOST = "143.248.12.11"
 	self.PORT = 50000
 	self.DATA_SIZE = 128 # maximum data length which can be sent in once
 	
