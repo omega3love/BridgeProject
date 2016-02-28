@@ -1,38 +1,32 @@
 #! /usr/bin/python
+from bridgePlay import *
 
-"""
-
-"""
-
-import pygame
-from colors import *
-from bridgeSprites import *
-from bridgeFunction import *
-
-screenWidth = 600;
-screenHeight = 600;
-gridSize =6;
 
 def main():
-    screenSize = (screenWidth,screenHeight)
-    screen = pygame.display.set_mode(screenSize)
-    clock  = pygame.time.Clock()
-    fps = 30 # frames per seconds       
-    
+ 
     """ Initialize pygame and set parameters """
     pygame.init()
-  
     board = Board()
+    play = Play()
 
     """ Display Loop """
     while True:
+        mouse = pygame.mouse.get_pos()
+
 	for event in pygame.event.get():
 	    if event.type == pygame.QUIT:
 		pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pixel=absToRel(mouse)
+                index=pixelToGrid(pixel)
+                play.fillGrid(index)
 
 	screen.fill(WHITE)
         board.draw(screen)
-    	
+
+        play.displayStone(mouse)
+        play.throwStone()
+
 	pygame.display.update()
 	clock.tick(fps)
   

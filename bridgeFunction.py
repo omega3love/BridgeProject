@@ -1,6 +1,4 @@
-import pygame
-import math
-from bridgeMain import *
+from bridgeParameters import *
 
 #Description
 #Convert Grid (1,1) ~ (6,6) to Relative Pixel Position about the center
@@ -9,19 +7,34 @@ from bridgeMain import *
 #(2,1) (2,2) (2,3) (2,4) (2,5) (2,6)
 #(3,1) (3,2) (3,3) (3,4) (3,5) (3,6)
 #... and so on to (6,6)
-def GridToPixel(col, row):
-    if 0 < col <= gridSize and 0 < row <= gridSize:
-        pixelY = 60*(col-4)+30
-        pixelX = 60*(row-4)+30
+
+def gridToPixel(index):
+    if 0 < index[0] <= gridSize and 0 < index[1] <= gridSize:
+        pixelY = 60*(index[0]-4)+30
+        pixelX = 60*(index[1]-4)+30
         return (pixelX,pixelY)
 
 #Description
 #Inverse function of GridToPixel Function
-def PixelToGrid(pixelX, pixelY):
-    col = pixelY/60+4
-    row = pixelX/60+4
+
+def pixelToGrid(pixel):
+    col = pixel[1]/60+4
+    row = pixel[0]/60+4
     return (col,row)
+
+#Description
+#Move the absolute position to the relatvie position to center
+
+def absToRel(pixel):
+    pixelX = pixel[0]-screenWidth/2
+    pixelY = pixel[1]-screenHeight/2
+    return (pixelX, pixelY)
     
+def relToAbs(pixel):
+    pixelX = pixel[0]+screenWidth/2
+    pixelY = pixel[1]+screenHeight/2
+    return (pixelX, pixelY)
+
 #Description
 #Check Connection of Two postions
 def CheckConnection(Map, col1, row1, col2, row2):
