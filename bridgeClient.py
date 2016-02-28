@@ -63,7 +63,7 @@ class bridgeConnection():
 	""" Receive data (string type) from the server """
 	while True:
 	    try:
-		data = self.soc.recv(DATA_SIZE) # receive data whose length <= DATA_SIZE
+		data = self.soc.recv(self.DATA_SIZE) # receive data whose length <= DATA_SIZE
 	    except:
 		print "Connection is lost"
 		break

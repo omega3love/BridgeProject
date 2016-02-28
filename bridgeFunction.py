@@ -3,17 +3,20 @@ import math
 from bridgeMain import *
 
 #Description
-#Convert Grid (0,0) ~ (6,6) to Relative Pixel Position about the center
-
+#Convert Grid (1,1) ~ (6,6) to Relative Pixel Position about the center
+#Grid style 
+#(1,1) (1,2) (1,3) (1,4) (1,5) (1,6)
+#(2,1) (2,2) (2,3) (2,4) (2,5) (2,6)
+#(3,1) (3,2) (3,3) (3,4) (3,5) (3,6)
+#... and so on to (6,6)
 def GridToPixel(col, row):
-    if col>0 and col<girdSize and row>0 and row<girdSize:
+    if 0 < col <= gridSize and 0 < row <= gridSize:
         pixelY = 60*(col-4)+30
         pixelX = 60*(row-4)+30
         return (pixelX,pixelY)
 
 #Description
 #Inverse function of GridToPixel Function
-
 def PixelToGrid(pixelX, pixelY):
     col = pixelY/60+4
     row = pixelX/60+4
@@ -29,7 +32,7 @@ def CheckConnection(Map, col1, row1, col2, row2):
 
 #Descripstion
 #Check Victory Condition (by junu)
-def CheckV(Map, col, row):
+def CheckVictory(Map, col, row):
 	for Checker in range(6):
 		if Checker == 5:
 			return True
