@@ -4,6 +4,8 @@ class Play():
     def __init__(self):
         self.turn = 1
         self.grid = [[0 for x in range (1,gridSize+1)] for x in range (1,gridSize+1)]
+
+        
     def fillGrid(self,index):
         self.grid[index[0]-1][index[1]-1]=self.turn
         self.turn *= -1
