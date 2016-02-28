@@ -1,3 +1,5 @@
+import pygame                                                             
+import math                                                                
 from bridgeParameters import *
 
 #Description

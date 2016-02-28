@@ -1,25 +1,33 @@
 #! /usr/bin/python
-import pygame
-from bridgeClient import bridgeConnection
+from bridgePlay import *
+from bridgeClient import *
 
 def main():
-    
-    screenSize = (screenWidth, screenHeight)
-    screen = pygame.display.set_mode(screenSize)
-    clock  = pygame.time.Clock()
-    fps = 30 # frames per seconds       
     
     pygame.init()
     # connect to the server
     conn = bridgeConnection()
-    
+    board = Board()
+    play = Play()
+
     # main loop for the game display
     while True:
+        mouse = pygame.mouse.get_pos()
 	for event in pygame.event.get():
 	    if event.type == pygame.QUIT:
 		pygame.quit()
+            if event.type == pygame.MOUSEBUTTONUP:   
+                pixel=absToRel(mouse)                                      
+                index=pixelToGrid(pixel)
+                if 'initialize' in conn.dataList:
+                    play.fillGrid(index)                                     
+
 
 	screen.fill(WHITE)
+        board.draw(screen)
+        play.displayStone(mouse)
+        play.throwStone()
+
 	""" ====== OUR CODES ====== """
 	# How to use 'bridgeConnection'
 	# [1] (ftn)  conn.sendData(data)    
