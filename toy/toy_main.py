@@ -4,7 +4,7 @@
 
 # Import
 import numpy as n
-from toy_function import ShowMap, CheckVictory
+from toy_function import *
 
 # Preset
 Map = n.zeros((6,6),dtype=n.int)
