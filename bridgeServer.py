@@ -20,6 +20,7 @@ class Server(Protocol):
         
         """ Initialize the game when enough players are connected """
         if len(self.factory.clients) == 2:
+	    print "2 players are joined!"
 	    sleep(2.5) # wait before starting the game
             self.message_all('initialize') # when clients receive this msg, they starts the game
             
@@ -32,7 +33,7 @@ class Server(Protocol):
 	""" If data is delivered from a client to the server,
 	    deliver the data to other clients """
         sender = self.transport.getPeer().host # address of data sender
-
+	print data
         for clients in self.factory.clients:
             if not clients.peer.host == sender:
                 clients.transport.write(data)
