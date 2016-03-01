@@ -42,7 +42,7 @@ def main():
             play.fillGrid(grid)
         
         if isEnd_C(grid,index[0],index[1]):
-	    pygame.QUIT:
+	    pygame.quit()
         
 	screen.fill(WHITE)
         board.draw(screen)
