@@ -2,19 +2,12 @@
 
 from twisted.internet.protocol import Protocol, Factory
 from twisted.internet import reactor
-import socket
+import socket, sys
 from time import sleep
+import pygame
 
 myhost = '127.0.0.1'
 
-try:
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("gmail.com",80))
-    myhostip = s.getsockname()[0]
-    s.close()
-except:
-    print "Internet disconnected?"
-    
 class Server(Protocol):
 
     def connectionMade(self):
@@ -37,6 +30,7 @@ class Server(Protocol):
 	""" When a client lose a connection """
         print "connection lost ", self
         self.factory.clients.remove(self)
+        self.message_all("info:connLost:%s"%str(self))
 
     def dataReceived(self, data):
 	""" If data is delivered from a client to the server,
@@ -46,6 +40,10 @@ class Server(Protocol):
         for clients in self.factory.clients:
             #if not clients.peer.host == sender:
                 clients.transport.write(data)
+        self.message_all(data)
+        for clients in self.factory.clients:
+            #if not clients.peer.host == sender:
+		clients.transport.write(data)
 
     def message_all(self, msg):
 	""" Send message to all clients from server """
@@ -57,13 +55,35 @@ class Server(Protocol):
         if clients_num in range(1, len(self.factory.clients) + 1):
             self.factory.clients[clients_num].transport.write(msg + '\n')
 
-factory = Factory()
-factory.protocol = Server
-factory.clients = [] # clients list
-factory.host = None
+def hostIPaddress():      
+    try:
+	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	s.connect(("gmail.com",80))
+	myhostip = s.getsockname()[0]
+	s.close()
+	return myhostip
+    except:
+	print "Internet disconnected?"
+	return 0
+
+if __name__ == "__main__":
+    myhostip = hostIPaddress()
+    if not myhostip:
+	sys.exit()
+    factory = Factory()
+    factory.protocol = Server
+    factory.clients = [] # clients list
+    factory.host = None
+
 
 PORT = 50000 # port of the server
 reactor.listenTCP(PORT, factory)
 print "[ Server info ]\nServer IP : %s\nPort : %d" %(myhostip, PORT)
 print "Server is now running.\nPress [ Ctrl-c ] to close the server."
 reactor.run()
+
+    PORT = 50000 # port of the server
+    reactor.listenTCP(PORT, factory)
+    print "[ Server info ]\nServer IP : %s\nPort : %d" %(myhostip, PORT)
+    print "Server is now running.\nPress [ Ctrl-c ] to close the server."
+    reactor.run()
