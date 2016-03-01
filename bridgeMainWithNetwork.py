@@ -36,7 +36,7 @@ def main():
                     #
                     ########################################################
 
-        play.turn = 1            
+        #play.turn = 1            
         for gridString in conn.dataList['grid']:
             #print ("Something is going on")
             grid=strToTuple(gridString)
