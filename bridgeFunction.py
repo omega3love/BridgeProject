@@ -48,6 +48,8 @@ def strToTuple(strValue):
     intValue=int(strValue)
     col = intValue/gridSize
     row = intValue%gridSize
+    if row == 0:
+        col-=1 
     return (col,row)
 
 

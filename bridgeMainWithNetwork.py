@@ -35,10 +35,12 @@ def main():
                     #
                     ########################################################
 
-        play.turn = conn.dataList['turn'][-1]
+        #play.turn = conn.dataList['turn'][-1]
         grid = (0,0)
+        
         for gridString in conn.dataList['grid']:
-            grid=strToTuple(gridString)
+            play.turn = -((conn.dataList['grid'].index(gridString))%2*2-1)
+            grid = strToTuple(gridString)
             play.fillGrid(grid)
 
         if play.isEnded_C(grid[0],grid[1]):
