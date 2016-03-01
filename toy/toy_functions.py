@@ -40,7 +40,7 @@ def SynchronizeMap(Map):
 		Map_Process = 0
 	return (Map, Map_View, Map_Process)
 
-def CheckGameOver(Map,col,row):
+def IsEnded_C(Map,col,row):
 	lenmap = len(Map)
 	for Checker in range(lenmap):
 		if Checker == lenmap - 1:
@@ -53,18 +53,27 @@ def CheckGameOver(Map,col,row):
 		elif not Connection(Map,col-1,Checker,col-1,Checker+1):
 			break
 	for Checker in range(lenmap-abs(col-row)):
-		if Checker == lenmap-abs(col-row)-1 and lenmap-abs(col-row) != 1:
-			return True
-		elif lenmap-abs(col-row) != 1 and col < row and not Connection(Map,Checker,row-col+Checker,Checker+1,row-col+Checker+1):
-				break
-		elif lenmap-abs(col-row) != 1 and col >= row and not Connection(Map,col-row+Checker,Checker,col-row+Checker+1,Checker+1):
-				break
+		if lenmap-abs(col-row) > 1:
+			if Checker == lenmap-abs(col-row)-1:
+				return True
+			elif col < row:
+				if not Connection(Map,Checker,row-col+Checker,Checker+1,row-col+Checker+1):
+					break
+			elif col >= row:
+				if not Connection(Map,col-row+Checker,Checker,col-row+Checker+1,Checker+1):
+					break
 	for Checker in range(lenmap-abs(lenmap+1-col-row)):
-		if Checker == lenmap-abs(lenmap+1-col-row)-1 and lenmap-abs(lenmap+1-col-row) != 1:
-			return True
-		elif col > lenmap+1-row:
-			if not Connection(Map,col+row-lenmap-1+Checker,lenmap-1-Checker,col+row-lenmap-1+Checker+1,lenmap-1-Checker-1):
-				break
-		elif col <= lenmap+1-row:
-			if not Connection(Map,Checker,col+row-1-Checker-1,Checker+1,col+row-1-Checker-1-1):
-				break
+		if 2 < col+row < lenmap*2:
+			if Checker == lenmap-abs(lenmap+1-col-row)-1:
+				return True
+			elif col > lenmap+1-row:
+				if not Connection(Map,col+row-lenmap-1+Checker,lenmap-1-Checker,col+row-lenmap+Checker,lenmap-1-Checker-1):
+					break
+			elif col <= lenmap+1-row:
+				if not Connection(Map,Checker,col+row-2-Checker,Checker+1,col+row-2-Checker-1):
+					break
+	return False
+      
+
+def CheckWinner(Map):
+	return 0

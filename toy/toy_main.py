@@ -17,7 +17,7 @@ Nurn = 0
 Map_View = [[" " for x in range(Mapsize)] for y in range(Mapsize)]
 
 # Background Loop
-while not GEnd or not CEnd:
+while not GEnd:
 	Map_View = SynchronizeMap(Map_Sys)[1]
 # Show Map
 	ShowMap(Map_View, Status)
@@ -37,27 +37,32 @@ while not GEnd or not CEnd:
 			Map_Sys[markerx - 1][markery - 1] = Nurn
 			Turn = False
 			Status = 0
-			GEnd = CheckGameOver(Map_Sys, markerx, markery)
+			GEnd = IsEnding_C(Map_Sys, markerx, markery)
 # Player 2
 		elif Map_Sys[markerx - 1][markery - 1] == 0 and not Turn:
 			Nurn += 1
 			Map_Sys[markerx - 1][markery - 1] = -Nurn
 			Turn = True
 			Status = 0
-			GEnd = CheckGameOver(Map_Sys, markerx, markery)
+			GEnd = IsEnding_C(Map_Sys, markerx, markery)
 # Check error
 		else:
 			Status = 3
+		if SynchronizeMap(Map_Sys)[2] == Mapsize*Mapsize:
+			GEnd = True
+			CEnd = True
 	else:
 		Status = 2
 Status = 1
-if GEnd:
+if GEnd and not CEnd:
+	Map_View = SynchronizeMap(Map_Sys)[1]
 	ShowMap(Map_View, Status)
 	if not Turn:
 		print "Win Player : Player 1"
 	elif Turn:
 		print "Win Player : Player 2"
-elif CEnd:
+elif GEnd and CEnd:
+	Map_View = SynchronizeMap(Map_Sys)[1]
 	ShowMap(Map, Status)
 	if CheckWinner(Map) == 1:
 		print "Win Player : Player 1"
