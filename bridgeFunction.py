@@ -37,8 +37,14 @@ def relToAbs(pixel):
     pixelY = pixel[1]+screenHeight/2
     return (pixelX, pixelY)
 
+#Define Map as:: 6 by 6 array with
+#	Player1's Stone = +
+#	Player2's Stone = -
+#	No Stone = 0
+
 #Description
 #Check Connection of Two postions
+
 def CheckConnection(Map, col1, row1, col2, row2):
 	if Map[col1][row1]^Map[col2][row2] > 0 and Map[col1][row1] != 0 and Map[col2][row2] != 0:
 		return True
@@ -47,6 +53,8 @@ def CheckConnection(Map, col1, row1, col2, row2):
 
 #Descripstion
 #Check Victory Condition (by junu)
+#(col,row) = last stone postion
+
 def CheckVictory(Map, col, row):
 	for Checker in range(6):
 		if Checker == 5:

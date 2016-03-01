@@ -8,13 +8,14 @@ from toy_function import *
 
 # Preset
 Map = n.zeros((6,6),dtype=n.int)
-End = False
+GEnd = False
+CEnd = False
 Status = 0
 Turn = True
 Nurn = 0
 
 # Background Loop
-while not End:
+while not GEnd or CEnd:
 # Show Map
 	ShowMap(Map, Status)
 # Print Player's Turn
@@ -32,6 +33,7 @@ while not End:
 			Nurn += 1
 			Map[markerx - 1][markery - 1] = Nurn
 			Turn = False
+			Status = 0
 # Check victory 1
 			End = CheckVictory(Map, markerx, markery)
 # Player 2
@@ -39,16 +41,27 @@ while not End:
 			Nurn += 1
 			Map[markerx - 1][markery - 1] = -Nurn
 			Turn = True
+			Status = 0
 # Check victory 2
-			End = CheckVictory(Map, markerx, markery)
+			GEnd = CheckVictory(Map, markerx, markery)
+			CEnd = CheckEnd(Map)
 # Check error
 		else:
 			Status = 3
 	else:
 		Status = 2
 Status = 1
-ShowMap(Map, Status)
-if not Turn:
-	print "Win Player : Player 1"
-elif Turn:
-	print "Win Player : Player 2"
+if GEnd:
+	ShowMap(Map, Status)
+	if not Turn:
+		print "Win Player : Player 1"
+	elif Turn:
+		print "Win Player : Player 2"
+elif CEnd:
+	ShowMap(Map, Status)
+	if CheckWinner(Map) == 1:
+		print "Win Player : Player 1"
+	elif CheckWinner(Map) == 2:
+		print "Win Player : Player 2"
+	else:
+		print "Draw"
