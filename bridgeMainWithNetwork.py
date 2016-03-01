@@ -25,6 +25,7 @@ def main():
                 if 'initialize' in conn.dataList['cmd']:
                     # Send the Data only when the grid is empty(==0)
                     if indexString not in conn.dataList['grid']:
+                       print indexString
                        conn.sendData(indexString)
                        print ("Data sent was successful!")
                     else:
@@ -38,8 +39,10 @@ def main():
 
         #play.turn = 1            
         for gridString in conn.dataList['grid']:
+            print gridString
             #print ("Something is going on")
             grid=strToTuple(gridString)
+            print grid
             play.fillGrid(grid)
         
         
