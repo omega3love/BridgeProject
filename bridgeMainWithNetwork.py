@@ -24,10 +24,8 @@ def main():
 
                 if 'initialize' in conn.dataList['cmd']:
                     # Send the Data only when the grid is empty(==0)
-                    if indexString not in conn.dataList['grid']:
-                       print indexString
+		    if indexString not in conn.dataList['grid'] and indexString != 6:
                        conn.sendData(indexString)
-                       print ("Data sent was successful!")
                     else:
                        pass
                     # Need to message to player when grid is already filled
@@ -39,12 +37,12 @@ def main():
 
         play.turn = 1            
         for gridString in conn.dataList['grid']:
-            print gridString
             #print ("Something is going on")
             grid=strToTuple(gridString)
-            print grid
             play.fillGrid(grid)
         
+        if isEnd_C(grid,index[0],index[1]):
+	    pygame.QUIT:
         
 	screen.fill(WHITE)
         board.draw(screen)

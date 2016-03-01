@@ -15,6 +15,8 @@ def gridToPixel(index):
         pixelY = 60*(index[0]-4)+30
         pixelX = 60*(index[1]-4)+30
         return (pixelX,pixelY)
+    else:
+	return (0,0)
 
 #Description
 #Inverse function of GridToPixel Function
