@@ -38,13 +38,10 @@ class Server(Protocol):
 	    deliver the data to other clients """
         sender = self.transport.getPeer().host # address of data sender
 	print data
-        for clients in self.factory.clients:
-            #if not clients.peer.host == sender:
-                clients.transport.write(data)
         self.message_all(data)
-        for clients in self.factory.clients:
+        #for clients in self.factory.clients:
             #if not clients.peer.host == sender:
-		clients.transport.write(data)
+		#clients.transport.write(data)
 
     def message_all(self, msg):
 	""" Send message to all clients from server """
@@ -75,13 +72,6 @@ if __name__ == "__main__":
     factory.protocol = Server
     factory.clients = [] # clients list
     factory.host = None
-
-
-PORT = 50000 # port of the server
-reactor.listenTCP(PORT, factory)
-print "[ Server info ]\nServer IP : %s\nPort : %d" %(myhostip, PORT)
-print "Server is now running.\nPress [ Ctrl-c ] to close the server."
-reactor.run()
 
     PORT = 50000 # port of the server
     reactor.listenTCP(PORT, factory)

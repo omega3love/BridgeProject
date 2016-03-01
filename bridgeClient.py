@@ -90,9 +90,9 @@ class bridgeConnection():
 	    
 	    if data=='initialize':
             #if data:    
-		self.dataList['cmd'].append(data) # save the received data
+		self.dataList['cmd'].append( data ) # save the received data
             else:
-                self.dataList['grid'].append(data)
+                self.dataList['grid'].append( data)
 	self.soc.close() # disconnect the connection
     
     def disconnect(self):
