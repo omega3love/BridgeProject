@@ -37,14 +37,14 @@ while not GEnd:
 			Map_Sys[markerx - 1][markery - 1] = Nurn
 			Turn = False
 			Status = 0
-			GEnd = IsEnding_C(Map_Sys, markerx, markery)
+			GEnd = IsEnded_C(Map_Sys, markerx, markery)
 # Player 2
 		elif Map_Sys[markerx - 1][markery - 1] == 0 and not Turn:
 			Nurn += 1
 			Map_Sys[markerx - 1][markery - 1] = -Nurn
 			Turn = True
 			Status = 0
-			GEnd = IsEnding_C(Map_Sys, markerx, markery)
+			GEnd = IsEnded_C(Map_Sys, markerx, markery)
 # Check error
 		else:
 			Status = 3

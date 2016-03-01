@@ -76,13 +76,6 @@ if __name__ == "__main__":
     factory.clients = [] # clients list
     factory.host = None
 
-
-PORT = 50000 # port of the server
-reactor.listenTCP(PORT, factory)
-print "[ Server info ]\nServer IP : %s\nPort : %d" %(myhostip, PORT)
-print "Server is now running.\nPress [ Ctrl-c ] to close the server."
-reactor.run()
-
     PORT = 50000 # port of the server
     reactor.listenTCP(PORT, factory)
     print "[ Server info ]\nServer IP : %s\nPort : %d" %(myhostip, PORT)
