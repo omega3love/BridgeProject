@@ -35,13 +35,14 @@ def main():
                     #
                     #
                     ########################################################
-                    
-                for gridString in conn.dataList['grid']:
-                    print ("Something is going on")
-                    grid=strToTuple(gridString)
-                    play.fillGrid(grid)
 
-                    
+        play.turn = 1            
+        for gridString in conn.dataList['grid']:
+            #print ("Something is going on")
+            grid=strToTuple(gridString)
+            play.fillGrid(grid)
+        
+        
 	screen.fill(WHITE)
         board.draw(screen)
         play.displayStone(mouse)
