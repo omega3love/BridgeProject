@@ -37,6 +37,18 @@ def relToAbs(pixel):
     pixelY = pixel[1]+screenHeight/2
     return (pixelX, pixelY)
 
+def tupleToStr(index):
+    intValue=index[0]*gridSize+index[1]
+    strValue=str(intValue)
+    return strValue
+
+def strToTuple(strValue):
+    intValue=int(strValue)
+    col = intValue/gridSize
+    row = intValue%gridSize
+    return (col,row)
+
+
 #Define Map as:: 6 by 6 array with
 #	Player1's Stone = +
 #	Player2's Stone = -
