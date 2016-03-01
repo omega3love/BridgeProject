@@ -44,8 +44,8 @@ def tupleToStr(index):
 
 def strToTuple(strValue):
     intValue=int(strValue)
-    col = intValue%gridSize
-    row = intValue/gridSize
+    col = intValue/gridSize
+    row = intValue%gridSize
     return (col,row)
 
 
