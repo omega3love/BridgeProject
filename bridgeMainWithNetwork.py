@@ -17,12 +17,32 @@ def main():
 	    if event.type == pygame.QUIT:
 		pygame.quit()
             if event.type == pygame.MOUSEBUTTONUP:   
+
                 pixel=absToRel(mouse)                                      
                 index=pixelToGrid(pixel)
-                if 'initialize' in conn.dataList:
-                    play.fillGrid(index)                                     
+                indexString = tupleToStr(index)
 
+                if 'initialize' in conn.dataList['cmd']:
+                    # Send the Data only when the grid is empty(==0)
+                    if indexString not in conn.dataList['grid']:
+                       conn.sendData(indexString)
+                       print ("Data sent was successful!")
+                    else:
+                       pass
+                    # Need to message to player when grid is already filled
+                    #
+                    #
+                    #
+                    #
+                    ########################################################
 
+        play.turn = 1            
+        for gridString in conn.dataList['grid']:
+            #print ("Something is going on")
+            grid=strToTuple(gridString)
+            play.fillGrid(grid)
+        
+        
 	screen.fill(WHITE)
         board.draw(screen)
         play.displayStone(mouse)

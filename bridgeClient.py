@@ -4,6 +4,7 @@ import socket
 import threading
 from time import sleep
 import sys
+import pygame
 
 class bridgeConnection():
     
@@ -16,7 +17,8 @@ class bridgeConnection():
 	
 	self.endThread = False
 	self.makeConnection()
-	self.dataList = []
+        #self.dataList = []
+	self.dataList = {'cmd':[],'grid':[]} #Sort the type of the data
 	if not self.soc:
 	    print "Server is not opened"	
 	
@@ -30,7 +32,6 @@ class bridgeConnection():
 		    #break
 
     def makeConnection(self):
-	
 	# make socket and connect to the server
 	soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	soc.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -53,8 +54,7 @@ class bridgeConnection():
 		    continue
 		else:
 		    return
-		    
-	    
+
 	    except socket.error:
 		print "Access denied"
 		sleep(1)
@@ -88,8 +88,11 @@ class bridgeConnection():
 		print "Connection is lost"
 		break
 	    
-	    if data:
-		self.dataList.append( data ) # save the received data
+	    if data=='initialize':
+            #if data:    
+		self.dataList['cmd'].append(data) # save the received data
+            else:
+                self.dataList['grid'].append(data)
 	self.soc.close() # disconnect the connection
     
     def disconnect(self):
@@ -98,11 +101,25 @@ class bridgeConnection():
 	print "joining the thread..."
 	self.T.join()
 	print "thread is joined"
+	pygame.quit()
 	sys.exit()
 	
+class userInterfaceWindow():
+    
+    def __init__(self, screen):
+	
+	self.screen = screen
+	self.clients = []
+	
+    def a():
+	pass
+	
+	
+	
+    
 if __name__ == "__main__":
     client = bridgeConnection()
     print "end session"
-    sleep(10)
+    sleep(15)
     client.disconnect()
     
