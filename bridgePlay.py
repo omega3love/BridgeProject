@@ -3,7 +3,7 @@ from bridgeSprites import *
 class Play():
     def __init__(self):
         self.turn = 1
-        self.grid = [[0 for x in range (1,gridSize+1)] for x in range (1,gridSize+1)]
+        self.grid = [[0 for x in range (0,gridSize)] for x in range (1,gridSize)]
 
         
     def fillGrid(self,index):
