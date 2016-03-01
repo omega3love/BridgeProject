@@ -16,16 +16,16 @@ class Server(Protocol):
         self.factory.clients.append(self)
         self.peer = self.transport.getPeer()
         print vars(self.peer) # show who made the connection
-        self.message_all("info:connMade:%s"%self.peer.host)
+        #self.message_all("info:connMade:%s"%self.peer.host)
 
         if self.peer.host == myhost:
             self.factory.host = self
         
         """ Initialize the game when enough players are connected """
-        #if len(self.factory.clients) == 2:
-	    #print "2 players are joined!"
-	    #sleep(2.5) # wait before starting the game
-            #self.message_all('initialize') # when clients receive this msg, they starts the game
+        if len(self.factory.clients) == 2:
+	    print "2 players are joined!"
+	    sleep(2.5) # wait before starting the game
+            self.message_all('initialize') # when clients receive this msg, they starts the game
             
     def connectionLost(self, reason):
 	""" When a client lose a connection """
@@ -38,16 +38,11 @@ class Server(Protocol):
 	    deliver the data to other clients """
         sender = self.transport.getPeer().host # address of data sender
 	print data
-        for clients in self.factory.clients:
-            #if not clients.peer.host == sender:
-                clients.transport.write(data)
         self.message_all(data)
-        for clients in self.factory.clients:
-            #if not clients.peer.host == sender:
-		clients.transport.write(data)
 
     def message_all(self, msg):
 	""" Send message to all clients from server """
+        
         for clients in self.factory.clients:
             clients.transport.write(msg)
 

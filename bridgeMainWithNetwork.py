@@ -21,10 +21,10 @@ def main():
                 pixel=absToRel(mouse)                                      
                 index=pixelToGrid(pixel)
                 indexString = tupleToStr(index)
-
+                print index
                 if 'initialize' in conn.dataList['cmd']:
                     # Send the Data only when the grid is empty(==0)
-		    if indexString not in conn.dataList['grid'] and indexString != 6:
+		    if indexString not in conn.dataList['grid'] and indexString != '6':
                        conn.sendData(indexString)
                     else:
                        pass
@@ -35,15 +35,14 @@ def main():
                     #
                     ########################################################
 
-        play.turn = 1            
+        play.turn = conn.dataList['turn'][-1]
+        grid = (0,0)
         for gridString in conn.dataList['grid']:
-            #print ("Something is going on")
             grid=strToTuple(gridString)
             play.fillGrid(grid)
-        
-        if isEnd_C(grid,index[0],index[1]):
+
+        if play.isEnded_C(grid[0],grid[1]):
 	    pygame.quit()
-        
 	screen.fill(WHITE)
         board.draw(screen)
         play.displayStone(mouse)
