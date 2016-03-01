@@ -30,15 +30,17 @@ class Server(Protocol):
 	""" When a client lose a connection """
         print "connection lost ", self
         self.factory.clients.remove(self)
+        self.message_all("info:connLost:%s"%str(self))
 
     def dataReceived(self, data):
 	""" If data is delivered from a client to the server,
 	    deliver the data to other clients """
         sender = self.transport.getPeer().host # address of data sender
 	print data
-        for clients in self.factory.clients:
-            if not clients.peer.host == sender:
-                clients.transport.write(data)
+        self.message_all(data)
+        #for clients in self.factory.clients:
+            #if not clients.peer.host == sender:
+		#clients.transport.write(data)
 
     def message_all(self, msg):
 	""" Send message to all clients from server """
