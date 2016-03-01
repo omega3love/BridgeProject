@@ -4,47 +4,47 @@
 
 # Import
 import numpy as n
-from toy_function import *
+from toy_functions import *
 
 # Preset
-Map = n.zeros((6,6),dtype=n.int)
+Mapsize = input("Map Size : ")
+Map_Sys = n.zeros((Mapsize,Mapsize),dtype=n.int)
 GEnd = False
 CEnd = False
 Status = 0
 Turn = True
 Nurn = 0
+Map_View = [[" " for x in range(Mapsize)] for y in range(Mapsize)]
 
 # Background Loop
-while not GEnd or CEnd:
+while not GEnd or not CEnd:
+	Map_View = SynchronizeMap(Map_Sys)[1]
 # Show Map
-	ShowMap(Map, Status)
+	ShowMap(Map_View, Status)
 # Print Player's Turn
 	if Turn:
 		print "Player 1"
-	else:
+	elif not Turn:
 		print "Player 2"
 # Input Stone position
 	markerx = input("Marker x : ")
 	markery = input("Marker y : ")
 # Check Stone and Add Stone
 # Player 1
-	if 0 < markerx <= 6 and 0 < markery <=6:
-		if Map[markerx - 1][markery - 1] == 0 and Turn:
+	if 0 < markerx <= Mapsize and 0 < markery <= Mapsize:
+		if Map_Sys[markerx - 1][markery - 1] == 0 and Turn:
 			Nurn += 1
-			Map[markerx - 1][markery - 1] = Nurn
+			Map_Sys[markerx - 1][markery - 1] = Nurn
 			Turn = False
 			Status = 0
-# Check victory 1
-			End = CheckVictory(Map, markerx, markery)
+			GEnd = CheckGameOver(Map_Sys, markerx, markery)
 # Player 2
-		elif Map[markerx - 1][markery - 1] == 0 and not Turn:
+		elif Map_Sys[markerx - 1][markery - 1] == 0 and not Turn:
 			Nurn += 1
-			Map[markerx - 1][markery - 1] = -Nurn
+			Map_Sys[markerx - 1][markery - 1] = -Nurn
 			Turn = True
 			Status = 0
-# Check victory 2
-			GEnd = CheckVictory(Map, markerx, markery)
-			CEnd = CheckEnd(Map)
+			GEnd = CheckGameOver(Map_Sys, markerx, markery)
 # Check error
 		else:
 			Status = 3
@@ -52,7 +52,7 @@ while not GEnd or CEnd:
 		Status = 2
 Status = 1
 if GEnd:
-	ShowMap(Map, Status)
+	ShowMap(Map_View, Status)
 	if not Turn:
 		print "Win Player : Player 1"
 	elif Turn:
