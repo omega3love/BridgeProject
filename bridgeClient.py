@@ -103,7 +103,8 @@ class bridgeConnection():
 	print "thread is joined"
 	pygame.quit()
 	sys.exit()
-	
+
+'''	
 class userInterfaceWindow():
     
     def __init__(self, screen):
@@ -113,7 +114,7 @@ class userInterfaceWindow():
 	
     def 
 	
-	
+'''	
 	
     
 if __name__ == "__main__":
