@@ -111,7 +111,8 @@ class userInterfaceWindow():
 	self.screen = screen
 	self.clients = []
 	
-    def 
+    def a():
+	pass
 	
 	
 	
@@ -119,6 +120,6 @@ class userInterfaceWindow():
 if __name__ == "__main__":
     client = bridgeConnection()
     print "end session"
-    sleep(10)
+    sleep(15)
     client.disconnect()
     

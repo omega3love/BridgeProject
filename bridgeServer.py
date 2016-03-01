@@ -16,21 +16,22 @@ class Server(Protocol):
         self.factory.clients.append(self)
         self.peer = self.transport.getPeer()
         print vars(self.peer) # show who made the connection
-        
+        self.message_all("info:connMade:%s"%self.peer.host)
+
         if self.peer.host == myhost:
             self.factory.host = self
         
         """ Initialize the game when enough players are connected """
-        if len(self.factory.clients) == 2:
-	    print "2 players are joined!"
-	    sleep(2.5) # wait before starting the game
-            self.message_all('initialize') # when clients receive this msg, they starts the game
+        #if len(self.factory.clients) == 2:
+	    #print "2 players are joined!"
+	    #sleep(2.5) # wait before starting the game
+            #self.message_all('initialize') # when clients receive this msg, they starts the game
             
     def connectionLost(self, reason):
 	""" When a client lose a connection """
         print "connection lost ", self
         self.factory.clients.remove(self)
-        self.message_all("info:connLost:%s"%str(self))
+        self.message_all("info:connLost:%s"%self.transport.getPeer().host)
 
     def dataReceived(self, data):
 	""" If data is delivered from a client to the server,
