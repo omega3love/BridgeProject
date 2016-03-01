@@ -44,7 +44,7 @@ class Server(Protocol):
         sender = self.transport.getPeer().host # address of data sender
 	print data
         for clients in self.factory.clients:
-            if not clients.peer.host == sender:
+            #if not clients.peer.host == sender:
                 clients.transport.write(data)
 
     def message_all(self, msg):
