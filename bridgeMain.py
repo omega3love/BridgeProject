@@ -21,6 +21,13 @@ def main():
                 index=pixelToGrid(pixel)
                 play.fillGrid(index)
 
+	print pixel
+	print index
+#	if play.isEnded_C():
+#	    pygame.quit()
+	
+	
+	
 	screen.fill(WHITE)
         board.draw(screen)
 
