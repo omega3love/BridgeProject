@@ -35,10 +35,10 @@ def SynchronizeMap(Map):
 				Map_View[col][row] = "X"
 				Map_Process += 1
 	if Map_Process == lencol*lenrow:
-		Map_Process = -1
+		Map_CEnd = True
 	else:
-		Map_Process = 0
-	return (Map, Map_View, Map_Process)
+		Map_CEnd = False
+	return (Map_View, Map_CEnd)
 
 def CheckGameOver(Map,col,row):
 	lenmap = len(Map)

@@ -17,8 +17,7 @@ Nurn = 0
 Map_View = [[" " for x in range(Mapsize)] for y in range(Mapsize)]
 
 # Background Loop
-while not GEnd or not CEnd:
-	Map_View = SynchronizeMap(Map_Sys)[1]
+while not GEnd:
 # Show Map
 	ShowMap(Map_View, Status)
 # Print Player's Turn
@@ -38,6 +37,7 @@ while not GEnd or not CEnd:
 			Turn = False
 			Status = 0
 			GEnd = CheckGameOver(Map_Sys, markerx, markery)
+			(Map_View,CEnd) = SynchronizeMap(Map_Sys)
 # Player 2
 		elif Map_Sys[markerx - 1][markery - 1] == 0 and not Turn:
 			Nurn += 1
@@ -45,6 +45,7 @@ while not GEnd or not CEnd:
 			Turn = True
 			Status = 0
 			GEnd = CheckGameOver(Map_Sys, markerx, markery)
+			(Map_View,CEnd) = SynchronizeMap(Map_Sys)
 # Check error
 		else:
 			Status = 3
