@@ -14,15 +14,6 @@ def main():
 
     # main loop for the game display
     while True:
-
-        if 'pickNumber' in conn.dataList['cmd'] and 'pickIsDone' not in conn.dataList['cmd']:
-           number = input('Pick Any Number: ')
-           conn.sendData(str(number)+'PN')  ## Make Length three
-           while len(conn.dataList['turn'])<2:
-              pass
-           conn.sendData('pickIsDone')    
-              print "hrhr"
-
         mouse = pygame.mouse.get_pos()
 	for event in pygame.event.get():
 	    if event.type == pygame.QUIT:
@@ -44,6 +35,14 @@ def main():
                     #
                     #
                     ########################################################
+
+        if 'pickNumber' in conn.dataList['cmd'] and 'pickIsDone' not in conn.dataList['cmd']:
+           number = input('Pick Any Number: ')
+           conn.sendData(str(number)+'PN')  ## Make Length three
+           while len(conn.dataList['turn'])<2:
+              pass
+           conn.sendData('pickIsDone')    
+
 
 
 
