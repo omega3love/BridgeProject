@@ -19,15 +19,21 @@ def main():
 	    if event.type == pygame.QUIT:
 		pygame.quit()
             if event.type == pygame.MOUSEBUTTONUP:   
-                turn *=-1
                 pixel=absToRel(mouse)                                      
                 index=pixelToGrid(pixel)
                 indexString = tupleToStr(index)
-        
-                if play.isEnded_C(index[0],index[1]):
-                    pygame.quit()
+    
+                if 'pickNumber' in conn.dataList['cmd'] 'pickIsDone' not in conn.dataList['cmd']:
+                    number = input('Pick Any Number: ')
+                    conn.sendData(str(number)+'PN')  ## Make Length three
+                    while len(conn.dataList['turn'])<2:
+                        pass
+                    conn.sendData('pickIsDone')    
 
                 if 'initialize' in conn.dataList['cmd']:
+    
+
+
                     # Send the Data only when the grid is empty(==0)
 		    if indexString not in conn.dataList['grid'] and indexString != '6':
                        conn.sendData(indexString)
@@ -40,11 +46,17 @@ def main():
                     #
                     ########################################################
 
+
+
         for gridString in conn.dataList['grid']:
             play.turn = -((conn.dataList['grid'].index(gridString))%2*2-1)
             grid = strToTuple(gridString)
             play.fillGrid(grid)
+            if play.isEnded_C(grid[0],grid[1])==True:
+                    print play.isEnded_C
+                    pygame.quit()
         
+
 	screen.fill(WHITE)
         board.draw(screen)
         play.turn = turn

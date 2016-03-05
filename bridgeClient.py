@@ -17,7 +17,7 @@ class bridgeConnection():
 	
 	self.endThread = False
 	self.makeConnection()
-	self.dataList = {'cmd':[],'grid':[], 'turn':[-1]} #Sort the type of the data
+	self.dataList = {'cmd':[],'grid':[], 'turn':[]} #Sort the type of the data
 	if not self.soc:
 	    print "Server is not opened"	
 	
@@ -87,12 +87,15 @@ class bridgeConnection():
 		print "Connection is lost"
 		break
 	    
-	    if data=='initialize':
-            #if data:    
+	    if len(data)>3:
 		self.dataList['cmd'].append(data) # save the received data
             elif len(data)<3:
                 self.dataList['grid'].append(data)
-                self.dataList['turn'].append(len(self.dataList['grid'])%2*2-1)
+            else:
+                self.dataList['turn'].append(data)
+            
+
+
 	self.soc.close() # disconnect the connection
     
     def disconnect(self):
