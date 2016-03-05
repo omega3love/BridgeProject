@@ -9,6 +9,8 @@ def main():
     conn = bridgeConnection()
     board = Board()
     play = Play()
+    turn = 1
+
 
     # main loop for the game display
     while True:
@@ -17,11 +19,14 @@ def main():
 	    if event.type == pygame.QUIT:
 		pygame.quit()
             if event.type == pygame.MOUSEBUTTONUP:   
-
+                turn *=-1
                 pixel=absToRel(mouse)                                      
                 index=pixelToGrid(pixel)
                 indexString = tupleToStr(index)
-                print index
+        
+                if play.isEnded_C(index[0],index[1]):
+                    pygame.quit()
+
                 if 'initialize' in conn.dataList['cmd']:
                     # Send the Data only when the grid is empty(==0)
 		    if indexString not in conn.dataList['grid'] and indexString != '6':
@@ -35,20 +40,16 @@ def main():
                     #
                     ########################################################
 
-        #play.turn = conn.dataList['turn'][-1]
-        grid = (0,0)
-        
         for gridString in conn.dataList['grid']:
             play.turn = -((conn.dataList['grid'].index(gridString))%2*2-1)
             grid = strToTuple(gridString)
             play.fillGrid(grid)
-
-        if play.isEnded_C(grid[0],grid[1]):
-	    pygame.quit()
+        
 	screen.fill(WHITE)
         board.draw(screen)
-        play.displayStone(mouse)
+        play.turn = turn
         play.throwStone()
+        play.displayStone(mouse)
 
 	""" ====== OUR CODES ====== """
 	# How to use 'bridgeConnection'

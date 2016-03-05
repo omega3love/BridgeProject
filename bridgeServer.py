@@ -41,8 +41,7 @@ class Server(Protocol):
         self.message_all(data)
 
     def message_all(self, msg):
-	""" Send message to all clients from server """
-        
+	""" Send message to all clients from server """        
         for clients in self.factory.clients:
             clients.transport.write(msg)
 
