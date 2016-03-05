@@ -14,6 +14,15 @@ def main():
 
     # main loop for the game display
     while True:
+
+        if 'pickNumber' in conn.dataList['cmd'] and 'pickIsDone' not in conn.dataList['cmd']:
+           number = input('Pick Any Number: ')
+           conn.sendData(str(number)+'PN')  ## Make Length three
+           while len(conn.dataList['turn'])<2:
+              pass
+           conn.sendData('pickIsDone')    
+              print "hrhr"
+
         mouse = pygame.mouse.get_pos()
 	for event in pygame.event.get():
 	    if event.type == pygame.QUIT:
@@ -22,18 +31,8 @@ def main():
                 pixel=absToRel(mouse)                                      
                 index=pixelToGrid(pixel)
                 indexString = tupleToStr(index)
-    
-                if 'pickNumber' in conn.dataList['cmd'] 'pickIsDone' not in conn.dataList['cmd']:
-                    number = input('Pick Any Number: ')
-                    conn.sendData(str(number)+'PN')  ## Make Length three
-                    while len(conn.dataList['turn'])<2:
-                        pass
-                    conn.sendData('pickIsDone')    
-
+                
                 if 'initialize' in conn.dataList['cmd']:
-    
-
-
                     # Send the Data only when the grid is empty(==0)
 		    if indexString not in conn.dataList['grid'] and indexString != '6':
                        conn.sendData(indexString)
