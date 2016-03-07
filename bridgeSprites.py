@@ -37,6 +37,67 @@ class Stone(pygame.sprite.Sprite):
         self.rect.center = (pixel[0],pixel[1])
         screen.blit(self.image,self.rect)
         
+######################################################################
+# Buttons
+######################################################################
 
+class Button(pygame.sprite.Sprite):
+    
+    def __init__(self, pos, rect, color, text = None):
+	pygame.sprite.Sprite.__init__(self)
+	self.pos = pos # left-top
+	self.rect = pygame.Rect((0,0,rect[0],rect[1])) # (left, top, width, height)
+	self.color = pygame.Color(*color)
+	self.text = text
+	self.renderedText = None
+	
+	if self.text:
+	    self.renderedText = self.renderText(self.text)
+		
+	self.image = self.roundedRect()
+	
+    def renderText(self, text, fontSize = 15, fontColor = (0,0,0)):
+	myfont = pygame.font.SysFont("monospace",fontSize)
+	rendered = myfont.render(text,1,fontColor)
+	return rendered
+
+    def roundedRect(self):
+
+	radius = 0.8
+	alpha = 80 # blur 0 ~ 255 vivid
+	self.color.a = 0
+	
+	self.rect.topleft = 0,0
+	rectangle = pygame.Surface(self.rect.size, pygame.SRCALPHA)
+	rectpos = rectangle.get_rect()
+	
+	circle       = pygame.Surface([min(self.rect.size)*3]*2,pygame.SRCALPHA)
+	pygame.draw.ellipse(circle,(0,0,0),circle.get_rect(),0)
+	circle       = pygame.transform.smoothscale(circle,[int(min(self.rect.size)*radius)]*2)
+
+	radius              = rectangle.blit(circle,(0,0))
+	radius.bottomright  = self.rect.bottomright
+	rectangle.blit(circle,radius)
+	radius.topright     = self.rect.topright
+	rectangle.blit(circle,radius)
+	radius.bottomleft   = self.rect.bottomleft
+	rectangle.blit(circle,radius)
+
+	rectangle.fill((0,0,0),self.rect.inflate(-radius.w,0))
+	rectangle.fill((0,0,0),self.rect.inflate(0,-radius.h))
+
+	rectangle.fill(self.color,special_flags=pygame.BLEND_RGBA_MAX)
+	rectangle.fill((255,255,255,alpha),special_flags=pygame.BLEND_RGBA_MIN)
+	
+	
+	if self.renderedText:
+	    textrect = self.renderedText.get_rect()
+	    x = rectpos.centerx - textrect.centerx
+	    y = rectpos.centery - textrect.centery
+	    rectangle.blit(self.renderedText,(x,y))
+	return rectangle   
+
+    def draw(self, screen):
+        screen.blit(self.image, self.pos)
 
 
