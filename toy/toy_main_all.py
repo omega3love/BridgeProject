@@ -310,19 +310,55 @@ def IsEnded_System(End, wait, stat, turn):
 def aikey(Map, turn):
 	return_position = [-1,-1]
 	virtual_map = [[' 'for x in xrange(6)]for y in xrange(6)]
+	#Initialize Map
 	for x in xrange(6):
 		for y in xrange(6):
 			virtual_map[x][y] = Map[x][y]
+	#Defence Losing Position
+	#Defence First Order Losing Position
 	for x in xrange(6):
 		for y in xrange(6):
 			if virtual_map[x][y] == ' ' and turn:
-				#Defence Losing Position
 				virtual_map[x][y] = 'X'
 				if IsEnded_Bridge(virtual_map,[x,y]):
 					return [x,y]
-				#Attack Winning Position
+				virtual_map[x][y] = ' '
+	#Defence Second Order Losing Position
+	for x in xrange(6):
+		for y in xrange(6):
+			if virtual_map[x][y] == ' ' and turn:
+				virtual_map[x][y] = 'X'
+				for z in xrange(6):
+					for w in xrange(6):
+						if z != x and w != y and Map[z][w] == ' ':
+							virtual_map[z][w] = 'X'
+							if IsEnded_Bridge(virtual_map,[z,w]):
+								return [x,y]
+							virtual_map[z][w] = ' '
+				virtual_map[x][y] = ' '
+	#Attack Winning Position
+	#Attack Third Order Winning Position
+	for x in xrange(6):
+		for y in xrange(6):
+			if virtual_map[x][y] == ' ' and turn:
 				virtual_map[x][y] = 'O'
-				#Attack Second Order Winning Position
+				for z in xrange(6):
+					for w in xrange(6):
+						if z != x and w != y and Map[z][w] == ' ':
+							virtual_map[z][w] = 'O'
+							for a in xrange(6):
+								for b in xrange(6):
+									if a != x and a != z and b != y and b != w and virtual_map[a][b] == ' ':
+										virtual_map[a][b] = 'O'
+										if IsEnded_Bridge(virtual_map,[a,b]):
+											return_position[0],return_position[1] = x,y
+										virtual_map[a][b] = ' '
+							virtual_map[z][w] = ' '
+	#Attack Second Order Winning Position
+	for x in xrange(6):
+		for y in xrange(6):
+			if virtual_map[x][y] == ' ' and turn:
+				virtual_map[x][y] = 'O'
 				for z in xrange(6):
 					for w in xrange(6):
 						if z != x and w != y and Map[z][w] == ' ':
@@ -330,19 +366,60 @@ def aikey(Map, turn):
 							if IsEnded_Bridge(virtual_map,[z,w]):
 								return_position[0],return_position[1] = x,y
 							virtual_map[z][w] = ' '
-				#Attack First Order Winning Position
+	#Attack First Order Winning Position
+	for x in xrange(6):
+		for y in xrange(6):
+			if virtual_map[x][y] == ' ' and turn:
+				virtual_map[x][y] = 'O'
 				if IsEnded_Bridge(virtual_map,[x,y]):
 					return_position[0],return_position[1] = x,y
-				#Initialize
 				virtual_map[x][y] = ' '
-			elif virtual_map[x][y] == ' ' and not turn:
-				#Defence Losing Position
+
+	#Defence Losing Position
+	#Defence First Order Losing Position
+	for x in xrange(6):
+		for y in xrange(6):
+			if virtual_map[x][y] == ' ' and not turn:
 				virtual_map[x][y] = 'O'
 				if IsEnded_Bridge(virtual_map,[x,y]):
 					return [x,y]
-				#Attack Winning Position
+				virtual_map[x][y] = ' '
+	#Defence Second Order Losing Position
+	for x in xrange(6):
+		for y in xrange(6):
+			if virtual_map[x][y] == ' ' and not turn:
+				virtual_map[x][y] = 'O'
+				for z in xrange(6):
+					for w in xrange(6):
+						if z != x and w != y and Map[z][w] == ' ':
+							virtual_map[z][w] = 'O'
+							if IsEnded_Bridge(virtual_map,[z,w]):
+								return [x,y]
+							virtual_map[z][w] = ' '
+				virtual_map[x][y] = ' '
+	#Attack Winning Position
+	#Attack Third Order Winning Position
+	for x in xrange(6):
+		for y in xrange(6):
+			if virtual_map[x][y] == ' ' and not turn:
 				virtual_map[x][y] = 'X'
-				#Attack Second Order Winning Position
+				for z in xrange(6):
+					for w in xrange(6):
+						if z != x and w != y and Map[z][w] == ' ':
+							virtual_map[z][w] = 'X'
+							for a in xrange(6):
+								for b in xrange(6):
+									if a != x and a != z and b != y and b != w and virtual_map[a][b] == ' ':
+										virtual_map[a][b] = 'X'
+										if IsEnded_Bridge(virtual_map,[a,b]):
+											return_position[0],return_position[1] = x,y
+										virtual_map[a][b] = ' '
+							virtual_map[z][w] = ' '
+	#Attack Second Order Winning Position
+	for x in xrange(6):
+		for y in xrange(6):
+			if virtual_map[x][y] == ' ' and not turn:
+				virtual_map[x][y] = 'X'
 				for z in xrange(6):
 					for w in xrange(6):
 						if z != x and w != y and Map[z][w] == ' ':
@@ -351,10 +428,14 @@ def aikey(Map, turn):
 								return_position[0],return_position[1] = x,y
 							virtual_map[z][w] = ' '
 				#Attack First Order Winning Position
+	for x in xrange(6):
+		for y in xrange(6):
+			if virtual_map[x][y] == ' ' and not turn:
+				virtual_map[x][y] = 'X'
 				if IsEnded_Bridge(virtual_map,[x,y]):
 					return_position[0],return_position[1] = x,y
-				#Initialize
 				virtual_map[x][y] = ' '
+
 	if return_position == [-1,-1]:
 		while True:
 			return_position[0],return_position[1] = random.randrange(0,6), random.randrange(0,6)
