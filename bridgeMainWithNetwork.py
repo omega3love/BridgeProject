@@ -6,7 +6,7 @@ def main():
     
     pygame.init()
     # connect to the server
-    conn = bridgeConnection()
+    conn = bridgeConnection(screen)
     board = Board()
     play = Play()
     turn = 1
