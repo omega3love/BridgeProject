@@ -102,7 +102,7 @@ class bridgeConnection(userInterfaceWindow):
     def __init__(self, screen):
 			
 	#self.HOST = raw_input("HOST IP : ")
-	self.HOST = "143.248.12.11"
+	self.HOST = "143.248.12.189"
 	self.PORT = 50000
 	self.DATA_SIZE = 256 # maximum data length which can be sent in once
 	self.myIP = myIPaddress()
@@ -224,11 +224,7 @@ class bridgeConnection(userInterfaceWindow):
 		if answer in ["Y", "Yes", "y", "yes"]:
 		    self.sendData("info:gameAccept:%s;%s" %(self.opponent, self.userName))
                     self.sendData("1")
-                    self.sendData("0"
-
-                    
-
-
+                    self.sendData("0")
 		else:
 		    self.opponent = None
 		    self.waitingForAns = False

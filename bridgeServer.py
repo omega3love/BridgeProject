@@ -77,7 +77,7 @@ class Server(Protocol):
 			self.message_all("info:connList:%s" %str(connList))
 			break
 	    print connList
-	
+
         
 
     def message_all(self, msg):

@@ -12,25 +12,29 @@ def main():
 
 #####################################################################
 
-""" Turn Attribution """
+    """ Turn Attribution """
 
     ''' Picking Process '''
-
+    
+    while 'pickNumber' not in conn.dataList['cmd']:
+        print ("Catch your opponent \n")
+        time.sleep(60)
+        
+    
     if 'pickNumber' in conn.dataList['cmd'] and 'initialize' not in conn.dataList['cmd']:
 
         if 'A' in  conn.dataList['ask']:
             while number != 1 or number != 2:
                 number = input("Pick number 1 or 2 \n")
-            conn.sendData("pick:A:%d",%number)    
-        elif 'B' in conn.dataList['ask'] 
+            conn.sendData("pick:A:%d" %number)    
+        elif 'B' in conn.dataList['ask']:
             while 0 < number < 101:
                 number = input("Pick Any integer from 1 to 100: ")
-            conn.sendData("pick:B:%d",%number)
+            conn.sendData("pick:B:%d" %number)
 
     while len(conn.dataList['pick'])<2:
         print ("Your oppoent is betting. Please Wait \n")
         time.sleep(5)
-        pass
     
     ''' Number attribution '''    
 
@@ -93,7 +97,7 @@ def main():
 
                 if play.turn==1:
                     if indexString not in conn.dataList['grid'] and indexString != '6':
-                        conn.sendData("grid:%s",%indexString)
+                        conn.sendData("grid:%s" %indexString)
                     else:
                         print("That position is already occupied! \n")
 
