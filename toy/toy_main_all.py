@@ -16,7 +16,7 @@ def Main():
 	sys_wait = 0
 	sys_stat = 'Game Start!'
 	pygame.display.set_mode((100,100))
-
+	
 	#While Loop
 	while True:
 		#Show Map
@@ -29,10 +29,17 @@ def Main():
 					pygame.quit()
 			#Get KEY
 			if event.type == pygame.KEYUP and game_End == [False,0]:
+				#Get Arrow KEY
 				sys_wait, game_position = GetArrowKeys(event, game_position)
+				#Get Space KEY
 				if event.key == pygame.K_SPACE:
 					game_map, game_last_position, game_turn = ThrowStone(game_map, game_position, game_turn)
 					sys_stat = str(game_last_position)
+				#Get AI KEY
+				#if event.key == pygame.K_TAB:
+					#game_position = aikey(game_map,game_turn)
+					#game_map, game_last_position, game_turn = ThrowStone(game_map, game_position, game_turn)
+					#sys_stat = str(game_last_positio)
 		#Check Victory Conditions
 		game_End = IsEnded(game_map,game_last_position)
 		sys_stat, sys_wait = IsEnded_System(game_End,sys_wait,sys_stat,game_turn)
