@@ -115,7 +115,7 @@ class bridgeConnection(userInterfaceWindow):
 	self.sendData("info:connMade:%s;%s"%(self.userName, self.myIP))
 	
 	self.dataGrave = [] # processed data will be saved here
-	self.dataList = {'cmd':[],'grid':[], 'turn':[], 'info':[]} #Sort the type of the data
+	self.dataList = {'cmd':[],'grid':[], 'ask':[], 'pick':[], 'turn':[], 'info':[]} #Sort the type of the data
 	
 	if not self.soc:
 	    print "Server is not opened"	
@@ -124,6 +124,7 @@ class bridgeConnection(userInterfaceWindow):
 	
 	self.lobby(self.clients)
 	self.askToPlay()
+
 
     def makeConnection(self):
 	# make socket and connect to the server
@@ -179,13 +180,15 @@ class bridgeConnection(userInterfaceWindow):
 		for realData in data.split("^")[:-1]:
 		    if "info" in realData:
 			self.dataList['info'].append(realData)
-		    elif len(data)>3:
-			self.dataList['cmd'].append(realData)
-		    elif len(data)<3:
-			self.dataList['grid'].append(data)
-		    else:
-			self.dataList['turn'].append(data)
-		    print "data is : %s" %realData
+                    elif "ask" in realData:  
+                        self.dataList['ask'].append(readData[4:])
+                    elif "pick" in realData:
+                        self.dataList['pick'].append(readData[5:])
+                    elif "cmd" in realData:
+			self.dataList['cmd'].append(realData[4:])
+		    elif "grid" in realData:
+			self.dataList['grid'].append(data[5:])
+            
 	    except socket.timeout:
 		#print "socket timed out"
 		continue
@@ -219,7 +222,13 @@ class bridgeConnection(userInterfaceWindow):
 		self.opponent = data.split(":")[-1].split(";")[0]
 		answer = inputbox.ask(self.screen, "'%s' has asked you to play. Accept?(y/n) " %self.opponent)
 		if answer in ["Y", "Yes", "y", "yes"]:
-		    self.sendData("info:gameAccept:%s;%s" %(self.userName, self.opponent))
+		    self.sendData("info:gameAccept:%s;%s" %(self.opponent, self.userName))
+                    self.sendData("1")
+                    self.sendData("0"
+
+                    
+
+
 		else:
 		    self.opponent = None
 		    self.waitingForAns = False

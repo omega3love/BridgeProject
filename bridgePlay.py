@@ -1,13 +1,13 @@
 from bridgeSprites import *
 
 class Play():
-    def __init__(self):
-        self.turn = 1
+    def __init__(self, turnValue):
+        self.turn = turnValue
         self.grid = [[0 for x in range (0,gridSize)] for x in range (0,gridSize)]
         
     def fillGrid(self,index):
         self.grid[index[0]-1][index[1]-1]=self.turn
-        #self.turn *= -1
+        self.turn *= -1
 
     def displayStone(self,mouse):    
         stone = Stone(self.turn)
