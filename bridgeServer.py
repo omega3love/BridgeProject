@@ -25,7 +25,8 @@ class Server(Protocol):
         if len(self.factory.clients) == 2:
 	    print "2 players are joined!"
 	    sleep(2.5) # wait before starting the game
-            self.message_all('initialize') # when clients receive this msg, they starts the game
+            #self.message_all('initialize \n')
+            self.message_all('pickNumber') # when clients receive this msg, they starts the game
             
     def connectionLost(self, reason):
 	""" When a client lose a connection """
@@ -41,8 +42,7 @@ class Server(Protocol):
         self.message_all(data)
 
     def message_all(self, msg):
-	""" Send message to all clients from server """
-        
+	""" Send message to all clients from server """        
         for clients in self.factory.clients:
             clients.transport.write(msg)
 

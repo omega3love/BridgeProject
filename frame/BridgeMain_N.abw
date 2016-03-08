@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE abiword PUBLIC "-//ABISOURCE//DTD AWML 1.0 Strict//EN" "http://www.abisource.com/awml.dtd">
+<abiword template="false" xmlns:ct="http://www.abisource.com/changetracking.dtd" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:math="http://www.w3.org/1998/Math/MathML" xid-max="95" xmlns:dc="http://purl.org/dc/elements/1.1/" styles="unlocked" fileformat="1.0" xmlns:svg="http://www.w3.org/2000/svg" xmlns:awml="http://www.abisource.com/awml.dtd" xmlns="http://www.abisource.com/awml.dtd" xmlns:xlink="http://www.w3.org/1999/xlink" version="0.99.2" xml:space="preserve" props="dom-dir:ltr; document-footnote-restart-section:0; document-endnote-type:numeric; document-endnote-place-enddoc:1; document-endnote-initial:1; lang:en-US; document-endnote-restart-section:0; document-footnote-restart-page:0; document-footnote-type:numeric; document-footnote-initial:1; document-endnote-place-endsection:0">
+<!-- ======================================================================== -->
+<!-- This file is an AbiWord document.                                        -->
+<!-- AbiWord is a free, Open Source word processor.                           -->
+<!-- More information about AbiWord is available at http://www.abisource.com/ -->
+<!-- You should not edit this file by hand.                                   -->
+<!-- ======================================================================== -->
+
+<metadata>
+<m key="abiword.date_last_changed">Tue Mar  8 21:10:26 2016
+</m>
+<m key="abiword.generator">AbiWord</m>
+<m key="dc.creator">Junu Jeong</m>
+<m key="dc.date">Mon Mar  7 20:34:33 2016
+</m>
+<m key="dc.format">application/x-abiword</m>
+</metadata>
+<rdf>
+</rdf>
+<history version="14" edit-time="6130" last-saved="1457439026" uid="b24bf8a0-e451-11e5-857b-d7f8dc6f1c0b">
+<version id="2" started="1457350473" uid="c4fa0832-e458-11e5-857b-d7f8dc6f1c0b" auto="0" top-xid="78"/>
+<version id="12" started="1457350601" uid="686f847e-e45e-11e5-8cc6-a63669ed525c" auto="0" top-xid="78"/>
+<version id="14" started="1457438981" uid="be51d6d0-e526-11e5-9ee4-bfcfb6d15808" auto="0" top-xid="94"/>
+</history>
+<styles>
+<s type="P" name="Normal" followedby="Current Settings" props="font-family:Times New Roman; margin-top:0pt; color:000000; margin-left:0pt; widows:2; font-style:normal; text-indent:0in; text-position:normal; margin-right:0pt; text-decoration:none; bgcolor:transparent; line-height:1.0; font-size:12pt; margin-bottom:0pt; font-variant:normal; font-weight:normal; text-align:left; font-stretch:normal"/>
+</styles>
+<pagesize pagetype="Letter" orientation="portrait" width="8.500000" height="11.000000" units="in" page-scale="1.000000"/>
+<section xid="19" props="page-margin-footer:0.5in; page-margin-header:0.5in">
+<p style="Normal" xid="20"><c props="font-size:12pt">BridgeMain_N.py</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="28"><c props="font-size:12pt"></c><c props="font-size:12pt">Frame</c></p>
+<p style="Normal" xid="1"><c props="font-size:12pt"></c><c></c></p>
+<p style="Normal" xid="3"><c props="font-size:12pt">import</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="4"><c props="font-size:12pt">	BridgeFunction</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="5"><c props="font-size:12pt">	BridgeClient</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="12"><c props="font-size:12pt"></c><c></c></p>
+<p style="Normal" xid="27"><c props="font-size:12pt">#Main Function</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="6"><c props="font-size:12pt">main()</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="38"><c props="font-size:12pt">	#Initialize</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="7"><c props="font-size:12pt">	pygame.init()</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="42"><c props="font-family:Times New Roman; text-decoration:none; color:000000; font-size:12pt; text-position:normal; font-weight:normal; font-style:normal; lang:en-US">	#Declare classes</c><c props="font-family:Times New Roman; text-decoration:none; color:000000; font-size:12pt; text-position:normal; font-weight:normal; font-style:normal; lang:en-US"></c></p>
+<p style="Normal" xid="8"><c props="font-size:12pt">	conn = bridgeConnection()</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="10"><c props="font-size:12pt">	play = Play()</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="55"><c props="font-size:12pt">	#Start Game</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="56"><c props="font-family:Times New Roman; text-decoration:none; color:000000; font-size:12pt; text-position:normal; font-weight:normal; font-style:normal; lang:en-US">	game_map = [[‘’ for x in range(6)] for y in range(6)]</c><c props="font-family:Times New Roman; text-decoration:none; color:000000; font-size:12pt; text-position:normal; font-weight:normal; font-style:normal; lang:en-US"></c></p>
+<p style="Normal" xid="81"><c props="font-family:Times New Roman; text-decoration:none; color:000000; font-size:12pt; text-position:normal; font-weight:normal; font-style:normal; lang:en-US">	game_gturn = True</c><c props="font-family:Times New Roman; text-decoration:none; color:000000; font-size:12pt; text-position:normal; font-weight:normal; font-style:normal; lang:en-US"></c></p>
+<p style="Normal" xid="79" props="margin-top:0.0000in; margin-left:0.0000in; text-indent:0.0000in; dom-dir:ltr; margin-bottom:0.0000in; line-height:1.000000; text-align:left; margin-right:0.0000in"><c props="font-family:Times New Roman; font-size:12pt; lang:en-US; text-position:normal; font-weight:normal; font-style:normal; text-decoration:none">	game_turn = True</c><c props="font-family:Times New Roman; font-size:12pt; lang:en-US; text-position:normal; font-weight:normal; font-style:normal; text-decoration:none"></c></p>
+<p style="Normal" xid="80" props="margin-top:0.0000in; margin-left:0.0000in; text-indent:0.0000in; dom-dir:ltr; margin-bottom:0.0000in; line-height:1.000000; text-align:left; margin-right:0.0000in"><c props="font-family:Times New Roman; font-size:12pt; lang:en-US; text-position:normal; font-weight:normal; font-style:normal; text-decoration:none">	game_End = (False,False)</c><c props="font-family:Times New Roman; font-size:12pt; lang:en-US; text-position:normal; font-weight:normal; font-style:normal; text-decoration:none"></c></p>
+<p style="Normal" xid="84" props="margin-top:0.0000in; margin-left:0.0000in; text-indent:0.0000in; dom-dir:ltr; margin-bottom:0.0000in; line-height:1.000000; text-align:left; margin-right:0.0000in"><c props="font-family:Times New Roman; font-size:12pt; lang:en-US; text-position:normal; font-weight:normal; font-style:normal; text-decoration:none">	event_ButtonUp = False</c><c props="font-family:Times New Roman; font-size:12pt; lang:en-US; text-position:normal; font-weight:normal; font-style:normal; text-decoration:none"></c></p>
+<p style="Normal" xid="15" props="font-family:Times New Roman; font-size:12pt; color:000000; lang:en-US; text-position:normal; font-weight:normal; font-style:normal; text-decoration:none"><c props="font-size:12pt"></c><c></c></p>
+<p style="Normal" xid="22"><c props="font-size:12pt">#Main Loop for the game</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="23"><c props="font-size:12pt">while True:</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="63"><c props="font-size:12pt"></c><c></c></p>
+<p style="Normal" xid="59"><c props="font-family:Times New Roman; text-decoration:none; color:000000; font-size:12pt; text-position:normal; font-weight:normal; font-style:normal; lang:en-US">	#%%Turn Check Section</c><c props="font-family:Times New Roman; text-decoration:none; color:000000; font-size:12pt; text-position:normal; font-weight:normal; font-style:normal; lang:en-US"></c></p>
+<p style="Normal" xid="82" props="margin-top:0.0000in; margin-left:0.0000in; text-indent:0.0000in; dom-dir:ltr; margin-bottom:0.0000in; line-height:1.000000; text-align:left; margin-right:0.0000in"><c props="font-family:Times New Roman; font-size:12pt; lang:en-US; text-position:normal; font-weight:normal; font-style:normal; text-decoration:none">	#Get turn value</c><c props="font-family:Times New Roman; font-size:12pt; lang:en-US; text-position:normal; font-weight:normal; font-style:normal; text-decoration:none"></c></p>
+<p style="Normal" xid="83" props="margin-top:0.0000in; margin-left:0.0000in; text-indent:0.0000in; dom-dir:ltr; margin-bottom:0.0000in; line-height:1.000000; text-align:left; margin-right:0.0000in"><c props="font-family:Times New Roman; font-size:12pt; lang:en-US; text-position:normal; font-weight:normal; font-style:normal; text-decoration:none">	game_turn = GetGameTurn(conn.dataList[‘turn’],game_gturn)</c><c props="font-family:Times New Roman; font-size:12pt; lang:en-US; text-position:normal; font-weight:normal; font-style:normal; text-decoration:none"></c></p>
+<p style="Normal" xid="60" props="font-family:Times New Roman; font-size:12pt; color:000000; lang:en-US; text-position:normal; font-weight:normal; font-style:normal; text-decoration:none"><c props="font-size:12pt"></c><c></c></p>
+<p style="Normal" xid="30"><c props="font-size:12pt">	#%%Event Section</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="25"><c props="font-size:12pt">	#Get Mouse position</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="24"><c props="font-size:12pt">	mouse_position = pygame. mouse.get_pos()</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="46"><c props="font-size:12pt">	mouse_index = GetMouseindex(mouse)</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="29"><c props="font-size:12pt">	#Is Quit Game?</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="31"><c props="font-size:12pt">	if event.type == pygame.QUIT:</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="32"><c props="font-size:12pt">		pygame.quit()</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="34"><c props="font-size:12pt">	#Is Button Up?</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="35"><c props="font-size:12pt">	if event.type == pygame.MOUSEBUTTONUP:</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="37"><c props="font-size:12pt">		event_ButtonUp = True</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="53"><c props="font-size:12pt"></c><c></c></p>
+<p style="Normal" xid="48"><c props="font-size:12pt">	#%%Placement Update - Send Data to Server</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="93"><c props="font-size:12pt">	#Is Player’s turn and Button Up?</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="51"><c props="font-size:12pt"></c><c props="font-size:12pt">	if game_turn and event_ButtonUp:</c></p>
+<p style="Normal" xid="90"><c props="font-family:Times New Roman; text-decoration:none; color:000000; font-size:12pt; text-position:normal; font-weight:normal; font-style:normal; lang:en-US">		#Send Map data to server</c><c props="font-family:Times New Roman; text-decoration:none; color:000000; font-size:12pt; text-position:normal; font-weight:normal; font-style:normal; lang:en-US"></c></p>
+<p style="Normal" xid="49"><c props="font-size:12pt">		SendData(game_map, mouse_index)</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="65"><c props="font-size:12pt">		#Get Map data from server</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="66"><c props="font-size:12pt">		game_map, game_gtrun = GetData(conn.dataList[‘cmd’])</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="67"><c props="font-size:12pt"></c><c></c></p>
+<p style="Normal" xid="68"><c props="font-size:12pt">	#%%Check Victory Condition</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="95"><c props="font-size:12pt">	if event_ButtonUp:</c></p>
+<p style="Normal" xid="70"><c props="font-size:12pt">		game_End = IsEnd(game_map,mouse_index)</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="74"><c props="font-size:12pt"></c><c></c></p>
+<p style="Normal" xid="75"><c props="font-size:12pt">	#%%Draw Map</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="76"><c props="font-size:12pt">	game_draw()</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="85"><c props="font-size:12pt"></c><c></c></p>
+<p style="Normal" xid="86"><c props="font-size:12pt">	#%%LoopEnd</c><c props="font-size:12pt"></c></p>
+<p style="Normal" xid="88"><c props="font-size:12pt">	event_ButtonUp = False</c><c props="font-size:12pt"></c></p>
+</section>
+</abiword>

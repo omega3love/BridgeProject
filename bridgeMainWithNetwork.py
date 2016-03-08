@@ -12,16 +12,17 @@ def main():
 
     # main loop for the game display
     while True:
+        #Event
         mouse = pygame.mouse.get_pos()
 	for event in pygame.event.get():
 	    if event.type == pygame.QUIT:
 		pygame.quit()
             if event.type == pygame.MOUSEBUTTONUP:   
-
-                pixel=absToRel(mouse)                                      
-                index=pixelToGrid(pixel)
-                indexString = tupleToStr(index)
-                print index
+		pixel=absToRel(mouse)                                      
+		index=pixelToGrid(pixel)
+		indexString = tupleToStr(index)
+         #Turn Check
+         #Placement Update - Send to Server
                 if 'initialize' in conn.dataList['cmd']:
                     # Send the Data only when the grid is empty(==0)
 		    if indexString not in conn.dataList['grid'] and indexString != '6':
@@ -34,21 +35,29 @@ def main():
                     #
                     #
                     ########################################################
+	
+        if 'pickNumber' in conn.dataList['cmd'] and 'pickIsDone' not in conn.dataList['cmd']:
+           number = input('Pick Any Number: ')
+           conn.sendData(str(number)+'PN')  ## Make Length three
+           while len(conn.dataList['turn'])<2:
+              pass
+           conn.sendData('pickIsDone')    
 
-        #play.turn = conn.dataList['turn'][-1]
-        grid = (0,0)
-        
+
+
+
         for gridString in conn.dataList['grid']:
             play.turn = -((conn.dataList['grid'].index(gridString))%2*2-1)
             grid = strToTuple(gridString)
             play.fillGrid(grid)
 
-        if play.isEnded_C(grid[0],grid[1]):
-	    pygame.quit()
+        
+
 	screen.fill(WHITE)
         board.draw(screen)
-        play.displayStone(mouse)
+        play.turn = turn
         play.throwStone()
+        play.displayStone(mouse)
 
 	""" ====== OUR CODES ====== """
 	# How to use 'bridgeConnection'
