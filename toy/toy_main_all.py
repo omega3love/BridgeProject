@@ -3,6 +3,7 @@
 #Import
 import pygame
 import os
+import random
 
 #Main Function
 def Main():
@@ -16,11 +17,7 @@ def Main():
 	sys_wait = 0
 	sys_stat = 'Game Start!'
 	pygame.display.set_mode((100,100))
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> 336203d51c791b8cdb6ac1c623f6d501126f76e7
 	#While Loop
 	while True:
 		#Show Map
@@ -40,10 +37,10 @@ def Main():
 					game_map, game_last_position, game_turn = ThrowStone(game_map, game_position, game_turn)
 					sys_stat = str(game_last_position)
 				#Get AI KEY
-				#if event.key == pygame.K_TAB:
-					#game_position = aikey(game_map,game_turn)
-					#game_map, game_last_position, game_turn = ThrowStone(game_map, game_position, game_turn)
-					#sys_stat = str(game_last_positio)
+				if event.key == pygame.K_TAB:
+					game_position = aikey(game_map,game_turn)
+					game_map, game_last_position, game_turn = ThrowStone(game_map, game_position, game_turn)
+					sys_stat = str(game_last_position)
 		#Check Victory Conditions
 		game_End = IsEnded(game_map,game_last_position)
 		sys_stat, sys_wait = IsEnded_System(game_End,sys_wait,sys_stat,game_turn)
@@ -187,18 +184,22 @@ def IsEnded_FullMap(Map):
 			for y in xrange(6):
 				for seed in xrange(1,6-x):
 					if end_map[0][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x+seed,y]):
-						end_map[0][x+seed][y] = '%d' %(seed+1)
+						for seeding in xrange(1,seed):
+							end_map[0][x+seeding][y] = '%d' %(seed+1)
 					elif end_map[0][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y]):
-						end_map[0][x+seed][y] = '%d' %(-seed-1)
+						for seeding in xrange(1,seed):
+							end_map[0][x+seeding][y] = '%d' %(-seed-1)
 					else:
 						break
 		for x in xrange(6):
 			for y in xrange(6):
 				for seed in xrange(1,6-y):
 					if end_map[1][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x,y+seed]):
-						end_map[1][x][y+seed] = '%d' %(seed+1)
+						for seeding in xrange(1,seed):
+							end_map[1][x][y+seeding] = '%d' %(seed+1)
 					elif end_map[1][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x,y+seed]):
-						end_map[1][x][y+seed] = '%d' %(-seed-1)
+						for seeding in xrange(1,seed):
+							end_map[1][x][y+seeding] = '%d' %(-seed-1)
 					else:
 						break
 		for x in xrange(6):
@@ -206,17 +207,21 @@ def IsEnded_FullMap(Map):
 				if 5>x>y:
 					for seed in xrange(1,5-x):
 						if end_map[2][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x+seed,y+seed]):
-							end_map[2][x+seed][y+seed] = '%d' %(seed+1)
+							for seeding in xrange(1,seed):
+								end_map[2][x+seeding][y+seeding] = '%d' %(seed+1)
 						elif end_map[2][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y+seed]):
-							end_map[2][x+seed][y+seed] = '%d' %(-seed-1)
+							for seeding in xrange(1,seed):
+								end_map[2][x+seeding][y+seeding] = '%d' %(-seed-1)
 						else:
 							break
 				if x<=y<5:
 					for seed in xrange(1,5-y):
 						if end_map[2][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x+seed,y+seed]):
-							end_map[2][x+seed][y+seed] = '%d' %(seed+1)
+							for seeding in xrange(1,seed):
+								end_map[2][x+seeding][y+seeding] = '%d' %(seed+1)
 						elif end_map[2][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y+seed]):
-							end_map[2][x+seed][y+seed] = '%d' %(-seed-1)
+							for seeding in xrange(1,seed):
+								end_map[2][x+seeding][y+seeding] = '%d' %(-seed-1)
 						else:
 							break
 		for x in xrange(6):
@@ -224,40 +229,24 @@ def IsEnded_FullMap(Map):
 				if 5>x>5-y:
 					for seed in xrange(1,5-x):
 						if end_map[3][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x+seed,y-seed]):
-							end_map[3][x+seed][y-seed] = '%d' %(seed+1)
+							for seeding in xrange(1,seed):
+								end_map[3][x+seeding][y-seeding] = '%d' %(seed+1)
 						elif end_map[3][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y-seed]):
-							end_map[3][x+seed][y-seed] = '%d' %(-seed-1)
+							for seeding in xrange(1,seed):
+								end_map[3][x+seeding][y-seeding] = '%d' %(-seed-1)
 						else:
 							break
 				if x<=5-y<5:
 					for seed in xrange(1,y):
 						if end_map[3][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x+seed,y-seed]):
-							end_map[3][x+seed][y-seed] = '%d' %(seed+1)
+							for seeding in xrange(1,seed):
+								end_map[3][x+seeding][y-seeding] = '%d' %(seed+1)
 						elif end_map[3][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y-seed]):
-							end_map[3][x+seed][y-seed] = '%d' %(-seed-1)
+							for seeding in xrange(1,seed):
+								end_map[3][x+seeding][y-seeding] = '%d' %(-seed-1)
 						else:
 							break
 		for z in xrange(4):
-<<<<<<< HEAD
-			for y in xrange(6):
-				print end_map[z][x]
-	if end_map.count('5')>end_map.count('-5'):
-		return 1
-	elif end_map.count('5')<end_map.count('-5'):
-		return 2
-	else:
-		if end_map.count('4')>end_map.count('-4'):
-			return 1
-		elif end_map.count('4')<end_map.count('-4'):
-			return 2
-		else:
-			if end_map.count('3')>end_map.count('-3'):
-				return 1
-			elif end_map.count('3')<end_map.count('-3'):
-				return 2
-			else:
-				return 3
-=======
 			for x in xrange(6):
 				count1_value[0] += end_map[z][x].count('5')
 				count2_value[0] += end_map[z][x].count('-5')
@@ -265,6 +254,9 @@ def IsEnded_FullMap(Map):
 				count2_value[1] += end_map[z][x].count('-4')
 				count1_value[2] += end_map[z][x].count('3')
 				count2_value[2] += end_map[z][x].count('-3')
+		for x in xrange(3):
+			count1_value[x] = count1_value[x]/(4-x)
+			count2_value[x] = count2_value[x]/(4-x)
 		print count1_value
 		print count2_value
 		if count1_value[0]>count2_value[0]:
@@ -283,7 +275,6 @@ def IsEnded_FullMap(Map):
 					return 2
 				else:
 					return 3
->>>>>>> 336203d51c791b8cdb6ac1c623f6d501126f76e7
 def IsConnected_O(Map, position1, position2):
 	if Map[position1[0]][position1[1]] == Map[position2[0]][position2[1]] and Map[position1[0]][position1[1]] == 'O':
 		return True
@@ -314,6 +305,62 @@ def IsEnded_System(End, wait, stat, turn):
 		return_stat = stat
 		return_wait = wait
 	return return_stat, return_wait
+
+#AI Function
+def aikey(Map, turn):
+	return_position = [-1,-1]
+	virtual_map = [[' 'for x in xrange(6)]for y in xrange(6)]
+	for x in xrange(6):
+		for y in xrange(6):
+			virtual_map[x][y] = Map[x][y]
+	for x in xrange(6):
+		for y in xrange(6):
+			if virtual_map[x][y] == ' ' and turn:
+				#Defence Losing Position
+				virtual_map[x][y] = 'X'
+				if IsEnded_Bridge(virtual_map,[x,y]):
+					return [x,y]
+				#Attack Winning Position
+				virtual_map[x][y] = 'O'
+				#Attack Second Order Winning Position
+				for z in xrange(6):
+					for w in xrange(6):
+						if z != x and w != y and Map[z][w] == ' ':
+							virtual_map[z][w] = 'O'
+							if IsEnded_Bridge(virtual_map,[z,w]):
+								return_position[0],return_position[1] = x,y
+							virtual_map[z][w] = ' '
+				#Attack First Order Winning Position
+				if IsEnded_Bridge(virtual_map,[x,y]):
+					return_position[0],return_position[1] = x,y
+				#Initialize
+				virtual_map[x][y] = ' '
+			elif virtual_map[x][y] == ' ' and not turn:
+				#Defence Losing Position
+				virtual_map[x][y] = 'O'
+				if IsEnded_Bridge(virtual_map,[x,y]):
+					return [x,y]
+				#Attack Winning Position
+				virtual_map[x][y] = 'X'
+				#Attack Second Order Winning Position
+				for z in xrange(6):
+					for w in xrange(6):
+						if z != x and w != y and Map[z][w] == ' ':
+							virtual_map[z][w] = 'X'
+							if IsEnded_Bridge(virtual_map,[z,w]):
+								return_position[0],return_position[1] = x,y
+							virtual_map[z][w] = ' '
+				#Attack First Order Winning Position
+				if IsEnded_Bridge(virtual_map,[x,y]):
+					return_position[0],return_position[1] = x,y
+				#Initialize
+				virtual_map[x][y] = ' '
+	if return_position == [-1,-1]:
+		while True:
+			return_position[0],return_position[1] = random.randrange(0,6), random.randrange(0,6)
+			if Map[return_position[0]][return_position[1]] == ' ':
+				break
+	return return_position
 
 
 #Exe
