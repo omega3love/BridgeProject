@@ -15,6 +15,7 @@ def Main():
 	game_End = [False,0]
 	sys_wait = 0
 	sys_stat = 'Game Start!'
+	pygame.display.set_mode((100,100))
 
 	#While Loop
 	while True:
@@ -226,22 +227,22 @@ def IsEnded_FullMap(Map):
 		for z in xrange(4):
 			for y in xrange(6):
 				print end_map[z][x]
-		if end_map.count('5')>end_map.count('-5'):
+	if end_map.count('5')>end_map.count('-5'):
+		return 1
+	elif end_map.count('5')<end_map.count('-5'):
+		return 2
+	else:
+		if end_map.count('4')>end_map.count('-4'):
 			return 1
-		elif end_map.count('5')<end_map.count('-5'):
+		elif end_map.count('4')<end_map.count('-4'):
 			return 2
 		else:
-			if end_map.count('4')>end_map.count('-4'):
+			if end_map.count('3')>end_map.count('-3'):
 				return 1
-			elif end_map.count('4')<end_map.count('-4'):
+			elif end_map.count('3')<end_map.count('-3'):
 				return 2
 			else:
-				if end_map.count('3')>end_map.count('-3'):
-					return 1
-				elif end_map.count('3')<end_map.count('-3'):
-					return 2
-				else:
-					return 3
+				return 3
 def IsConnected_O(Map, position1, position2):
 	if Map[position1[0]][position1[1]] == Map[position2[0]][position2[1]] and Map[position1[0]][position1[1]] == 'O':
 		return True
