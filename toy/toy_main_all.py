@@ -15,6 +15,7 @@ def Main():
 	game_End = [False,0]
 	sys_wait = 0
 	sys_stat = 'Game Start!'
+	pygame.display.set_mode((100,100))
 
 	#While Loop
 	while True:
@@ -161,6 +162,8 @@ def IsConnected_lol(Map, position, seed):
 #IsEnded Full Map
 def IsEnded_FullMap(Map):
 	search_value = 0
+	count1_value = [0,0,0]
+	count2_value = [0,0,0]
 	for x in xrange(6):
 		for y in xrange(6):
 			if Map[x][y] == ' ':
@@ -174,7 +177,7 @@ def IsEnded_FullMap(Map):
 				for seed in xrange(1,6-x):
 					if end_map[0][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x+seed,y]):
 						end_map[0][x+seed][y] = '%d' %(seed+1)
-					if end_map[0][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y]):
+					elif end_map[0][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y]):
 						end_map[0][x+seed][y] = '%d' %(-seed-1)
 					else:
 						break
@@ -183,7 +186,7 @@ def IsEnded_FullMap(Map):
 				for seed in xrange(1,6-y):
 					if end_map[1][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x,y+seed]):
 						end_map[1][x][y+seed] = '%d' %(seed+1)
-					if end_map[1][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x,y+seed]):
+					elif end_map[1][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x,y+seed]):
 						end_map[1][x][y+seed] = '%d' %(-seed-1)
 					else:
 						break
@@ -193,7 +196,7 @@ def IsEnded_FullMap(Map):
 					for seed in xrange(1,5-x):
 						if end_map[2][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x+seed,y+seed]):
 							end_map[2][x+seed][y+seed] = '%d' %(seed+1)
-						if end_map[2][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y+seed]):
+						elif end_map[2][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y+seed]):
 							end_map[2][x+seed][y+seed] = '%d' %(-seed-1)
 						else:
 							break
@@ -201,7 +204,7 @@ def IsEnded_FullMap(Map):
 					for seed in xrange(1,5-y):
 						if end_map[2][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x+seed,y+seed]):
 							end_map[2][x+seed][y+seed] = '%d' %(seed+1)
-						if end_map[2][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y+seed]):
+						elif end_map[2][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y+seed]):
 							end_map[2][x+seed][y+seed] = '%d' %(-seed-1)
 						else:
 							break
@@ -211,7 +214,7 @@ def IsEnded_FullMap(Map):
 					for seed in xrange(1,5-x):
 						if end_map[3][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x+seed,y-seed]):
 							end_map[3][x+seed][y-seed] = '%d' %(seed+1)
-						if end_map[3][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y-seed]):
+						elif end_map[3][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y-seed]):
 							end_map[3][x+seed][y-seed] = '%d' %(-seed-1)
 						else:
 							break
@@ -219,26 +222,33 @@ def IsEnded_FullMap(Map):
 					for seed in xrange(1,y):
 						if end_map[3][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x+seed,y-seed]):
 							end_map[3][x+seed][y-seed] = '%d' %(seed+1)
-						if end_map[3][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y-seed]):
+						elif end_map[3][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y-seed]):
 							end_map[3][x+seed][y-seed] = '%d' %(-seed-1)
 						else:
 							break
 		for z in xrange(4):
-			for y in xrange(6):
-				print end_map[z][x]
-		if end_map.count('5')>end_map.count('-5'):
+			for x in xrange(6):
+				count1_value[0] += end_map[z][x].count('5')
+				count2_value[0] += end_map[z][x].count('-5')
+				count1_value[1] += end_map[z][x].count('4')
+				count2_value[1] += end_map[z][x].count('-4')
+				count1_value[2] += end_map[z][x].count('3')
+				count2_value[2] += end_map[z][x].count('-3')
+		print count1_value
+		print count2_value
+		if count1_value[0]>count2_value[0]:
 			return 1
-		elif end_map.count('5')<end_map.count('-5'):
+		elif count1_value[0]<count2_value[0]:
 			return 2
 		else:
-			if end_map.count('4')>end_map.count('-4'):
+			if count1_value[1]>count2_value[1]:
 				return 1
-			elif end_map.count('4')<end_map.count('-4'):
+			elif count1_value[1]<count2_value[1]:
 				return 2
 			else:
-				if end_map.count('3')>end_map.count('-3'):
+				if count1_value[2]>count2_value[2]:
 					return 1
-				elif end_map.count('3')<end_map.count('-3'):
+				elif count1_value[2]<count2_value[2]:
 					return 2
 				else:
 					return 3
