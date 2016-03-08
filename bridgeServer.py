@@ -25,7 +25,6 @@ class Server(Protocol):
         if len(self.factory.clients) == 2:
 	    print "2 players are joined!"
 	    sleep(2) # wait before starting the game
-            #self.message_all('initialize \n')
             self.message_all('cmd:pickNumber') # when clients receive this msg, they starts the game
         
             
