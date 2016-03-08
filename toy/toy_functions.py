@@ -55,16 +55,18 @@ def CheckGameOver(Map,col,row):
 	for Checker in range(lenmap-abs(col-row)):
 		if Checker == lenmap-abs(col-row)-1 and lenmap-abs(col-row) != 1:
 			return True
-		elif lenmap-abs(col-row) != 1 and col < row and not Connection(Map,Checker,row-col+Checker,Checker+1,row-col+Checker+1):
+		elif lenmap-abs(col-row) != 1 and col < row:
+			if not Connection(Map,Checker,row-col+Checker,Checker+1,row-col+Checker+1):
 				break
-		elif lenmap-abs(col-row) != 1 and col >= row and not Connection(Map,col-row+Checker,Checker,col-row+Checker+1,Checker+1):
+		elif lenmap-abs(col-row) != 1 and col >= row:
+			if not Connection(Map,col-row+Checker,Checker,col-row+Checker+1,Checker+1):
 				break
 	for Checker in range(lenmap-abs(lenmap+1-col-row)):
 		if Checker == lenmap-abs(lenmap+1-col-row)-1 and lenmap-abs(lenmap+1-col-row) != 1:
 			return True
 		elif col > lenmap+1-row:
-			if not Connection(Map,col+row-lenmap-1+Checker,lenmap-1-Checker,col+row-lenmap-1+Checker+1,lenmap-1-Checker-1):
+			if not Connection(Map,col+row-lenmap+Checker,lenmap-1-Checker,col+row-lenmap+Checker+1,lenmap-1-Checker-1):
 				break
 		elif col <= lenmap+1-row:
-			if not Connection(Map,Checker,col+row-1-Checker-1,Checker+1,col+row-1-Checker-1-1):
+			if not Connection(Map,Checker,col+row-2-Checker,Checker+1,col+row-2-Checker-1):
 				break
