@@ -1,0 +1,56 @@
+BridgeMain_N.py
+Frame
+
+import
+	BridgeFunction
+	BridgeClient
+
+#Main Function
+main()
+	#Initialize
+	pygame.init()
+	#Declare classes
+	conn = bridgeConnection()
+	play = Play()
+	#Start Game
+	game_map = [[‘’ for x in range(6)] for y in range(6)]
+	game_gturn = True
+	game_turn = True
+	game_End = (False,False)
+	event_ButtonUp = False
+
+#Main Loop for the game
+while True:
+
+	#%%Turn Check Section
+	#Get turn value
+	game_turn = GetGameTurn(conn.dataList[‘turn’],game_gturn)
+
+	#%%Event Section
+	#Get Mouse position
+	mouse_position = pygame. mouse.get_pos()
+	mouse_index = GetMouseindex(mouse)
+	#Is Quit Game?
+	if event.type == pygame.QUIT:
+		pygame.quit()
+	#Is Button Up?
+	if event.type == pygame.MOUSEBUTTONUP:
+		event_ButtonUp = True
+
+	#%%Placement Update - Send Data to Server
+	#Is Player’s turn and Button Up?
+	if game_turn and event_ButtonUp:
+		#Send Map data to server
+		SendData(game_map, mouse_index)
+		#Get Map data from server
+		game_map, game_gtrun = GetData(conn.dataList[‘cmd’])
+
+	#%%Check Victory Condition
+	if event_ButtonUp:
+		game_End = IsEnd(game_map,mouse_index)
+
+	#%%Draw Map
+	game_draw()
+
+	#%%LoopEnd
+	event_ButtonUp = False
