@@ -3,7 +3,13 @@
 #Import
 import pygame
 import os
+from bridgeAI import AI
 
+def aikey(game_map, game_turn):
+	ai = AI()
+	ai.grid = game_map
+	return ai.main()
+    
 #Main Function
 def Main():
 	pygame.init()
@@ -36,10 +42,11 @@ def Main():
 					game_map, game_last_position, game_turn = ThrowStone(game_map, game_position, game_turn)
 					sys_stat = str(game_last_position)
 				#Get AI KEY
-				#if event.key == pygame.K_TAB:
-					#game_position = aikey(game_map,game_turn)
-					#game_map, game_last_position, game_turn = ThrowStone(game_map, game_position, game_turn)
-					#sys_stat = str(game_last_positio)
+				if event.key == pygame.K_TAB:
+					game_position = aikey(game_map,game_turn)
+					print game_position
+					game_map, game_last_position, game_turn = ThrowStone(game_map, game_position, game_turn)
+					sys_stat = str(game_last_position)
 		#Check Victory Conditions
 		game_End = IsEnded(game_map,game_last_position)
 		sys_stat, sys_wait = IsEnded_System(game_End,sys_wait,sys_stat,game_turn)
