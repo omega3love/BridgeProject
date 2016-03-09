@@ -313,12 +313,18 @@ def IsEnded_System(End, wait, stat, turn):
 	return return_stat, return_wait
 
 #AI Function
-def aikey(Map, turn):
+def aikey(Map, turn, winning=[1,0.5,0.5], losing=[1,0.5]):
 	#Declare Values
 	position_value = [0 for x in xrange(5)]
 	position_index = 0
+	position_box = []
 	return_position = [[-1,-1]for x in xrange(5)]
 	virtual_map = [[' 'for x in xrange(6)]for y in xrange(6)]
+	winning_1st = winning[0]
+	winning_2nd = winning[1]
+	winning_3rd = winning[2]
+	losing_1st = losing[0]
+	losing_2nd = losing[1]
 	#Initialize
 	for x in xrange(6):
 		for y in xrange(6):
@@ -336,66 +342,80 @@ def aikey(Map, turn):
 			if virtual_map[x][y] == ' ':
 				virtual_map[x][y] = df_position
 				if IsEnded_Bridge(virtual_map,[x,y]):
-					return_position[0][0],return_position[0][1] = x,y
-					position_value[0] = 1
+					position_box.append("[%d,%d]"%(x,y))
+					position_value[0] = losing_1st
 				virtual_map[x][y] = ' '
+	return_position[0] = aipositionbox(position_box)
+	position_box = []
 	#Defence Second Order Losing Position
 	for x in xrange(6):
 		for y in xrange(6):
 			if virtual_map[x][y] == ' ':
 				virtual_map[x][y] = df_position
-				for z in xrange(6):
-					for w in xrange(6):
-						if z != x and w != y and Map[z][w] == ' ':
-							virtual_map[z][w] = df_position
-							if IsEnded_Bridge(virtual_map,[z,w]):
-								return_position[1][0],return_position[1][1] = x,y
-								position_value[1] = 0.9
-							virtual_map[z][w] = ' '
+				if not IsEnded_Bridge(virtual_map,[x,y]):
+					for z in xrange(6):
+						for w in xrange(6):
+							if z != x and w != y and Map[z][w] == ' ':
+								virtual_map[z][w] = df_position
+								if IsEnded_Bridge(virtual_map,[z,w]):
+									position_box.append("[%d,%d]"%(x,y))
+									position_value[1] = losing_2nd
+								virtual_map[z][w] = ' '
 				virtual_map[x][y] = ' '
+	return_position[1] = aipositionbox(position_box)
+	position_box = []
 	#Attack Winning Position
 	#Attack Third Order Winning Position
 	for x in xrange(6):
 		for y in xrange(6):
 			if virtual_map[x][y] == ' ':
 				virtual_map[x][y] = at_position
-				for z in xrange(6):
-					for w in xrange(6):
-						if z != x and w != y and Map[z][w] == ' ':
-							virtual_map[z][w] = at_position
-							for a in xrange(6):
-								for b in xrange(6):
-									if a != x and a != z and b != y and b != w and virtual_map[a][b] == ' ':
-										virtual_map[a][b] = at_position
-										if IsEnded_Bridge(virtual_map,[a,b]):
-											return_position[2][0],return_position[2][1] = x,y
-											position_value[2] = 0.1
-										virtual_map[a][b] = ' '
-							virtual_map[z][w] = ' '
+				if not IsEnded_Bridge(virtual_map,[x,y]):
+					for z in xrange(6):
+						for w in xrange(6):
+							if z != x and w != y and Map[z][w] == ' ':
+								virtual_map[z][w] = at_position
+								if not IsEnded_Bridge(virtual_map,[z,w]):
+									for a in xrange(6):
+										for b in xrange(6):
+											if a != x and a != z and b != y and b != w and virtual_map[a][b] == ' ':
+												virtual_map[a][b] = at_position
+												if IsEnded_Bridge(virtual_map,[a,b]):
+													position_box.append("[%d,%d]"%(x,y))
+													position_value[2] = winning_3rd
+												virtual_map[a][b] = ' '
+								virtual_map[z][w] = ' '
 				virtual_map[x][y] = ' '
+	return_position[2] = aipositionbox(position_box)
+	position_box = []
 	#Attack Second Order Winning Position
 	for x in xrange(6):
 		for y in xrange(6):
 			if virtual_map[x][y] == ' ':
 				virtual_map[x][y] = at_position
-				for z in xrange(6):
-					for w in xrange(6):
-						if z != x and w != y and Map[z][w] == ' ':
-							virtual_map[z][w] = at_position
-							if IsEnded_Bridge(virtual_map,[z,w]):
-								return_position[3][0],return_position[3][1] = x,y
-								position_value[3] = 0.5
-							virtual_map[z][w] = ' '
+				if not IsEnded_Bridge(virtual_map,[x,y]):
+					for z in xrange(6):
+						for w in xrange(6):
+							if z != x and w != y and Map[z][w] == ' ':
+								virtual_map[z][w] = at_position
+								if IsEnded_Bridge(virtual_map,[z,w]):
+									position_box.append("[%d,%d]"%(x,y))
+									position_value[3] = winning_2nd
+								virtual_map[z][w] = ' '
 				virtual_map[x][y] = ' '
+	return_position[3] = aipositionbox(position_box)
+	position_box = []
 	#Attack First Order Winning Position
 	for x in xrange(6):
 		for y in xrange(6):
 			if virtual_map[x][y] == ' ':
 				virtual_map[x][y] = at_position
 				if IsEnded_Bridge(virtual_map,[x,y]):
-					return_position[4][0],return_position[4][1] = x,y
-					position_value[4] = 1
+					position_box.append("[%d,%d]"%(x,y))
+					position_value[4] = winning_1st
 				virtual_map[x][y] = ' '
+	return_position[4] = aipositionbox(position_box)
+	position_box = []
 	#Evaluate position_value
 	if position_value[4] == 1:
 		return return_position[4]
@@ -410,12 +430,14 @@ def aikey(Map, turn):
 		return return_position[position_index]
 	else:
 		while True:
-			return_position[0][0]=random.randrange(0,6)
-			return_position[0][1]=random.randrange(0,6)
+			return_position[0] = eval("[random.randrange(0,len(Map)),random.randrange(0,len(Map[0]))]")
 			if Map[return_position[0][0]][return_position[0][1]] == ' ':
 				break
 		return return_position[0]
-
+def aipositionbox(box):
+	if len(box) != 0:
+		random_position = box[random.randrange(0,len(box))]
+		return eval(random_position)
 
 
 #Exe
