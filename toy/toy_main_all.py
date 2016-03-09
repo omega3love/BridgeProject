@@ -3,6 +3,7 @@
 #Import
 import pygame
 import os
+import operator
 import random
 
 #Main Function
@@ -22,7 +23,7 @@ def Main():
 	while True:
 		#Show Map
 		sys_wait = ShowMap(game_map,game_position,game_turn,sys_wait,sys_stat)
-			#Get Events
+		#Get Events
 		for event in pygame.event.get():
 			#QUIT Game
 			if event.type == pygame.KEYDOWN:
@@ -184,10 +185,10 @@ def IsEnded_FullMap(Map):
 			for y in xrange(6):
 				for seed in xrange(1,6-x):
 					if end_map[0][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x+seed,y]):
-						for seeding in xrange(1,seed):
+						for seeding in xrange(1,seed+1):
 							end_map[0][x+seeding][y] = '%d' %(seed+1)
 					elif end_map[0][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y]):
-						for seeding in xrange(1,seed):
+						for seeding in xrange(1,seed+1):
 							end_map[0][x+seeding][y] = '%d' %(-seed-1)
 					else:
 						break
@@ -195,10 +196,10 @@ def IsEnded_FullMap(Map):
 			for y in xrange(6):
 				for seed in xrange(1,6-y):
 					if end_map[1][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x,y+seed]):
-						for seeding in xrange(1,seed):
+						for seeding in xrange(1,seed+1):
 							end_map[1][x][y+seeding] = '%d' %(seed+1)
 					elif end_map[1][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x,y+seed]):
-						for seeding in xrange(1,seed):
+						for seeding in xrange(1,seed+1):
 							end_map[1][x][y+seeding] = '%d' %(-seed-1)
 					else:
 						break
@@ -207,20 +208,20 @@ def IsEnded_FullMap(Map):
 				if 5>x>y:
 					for seed in xrange(1,5-x):
 						if end_map[2][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x+seed,y+seed]):
-							for seeding in xrange(1,seed):
+							for seeding in xrange(1,seed+1):
 								end_map[2][x+seeding][y+seeding] = '%d' %(seed+1)
 						elif end_map[2][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y+seed]):
-							for seeding in xrange(1,seed):
+							for seeding in xrange(1,seed+1):
 								end_map[2][x+seeding][y+seeding] = '%d' %(-seed-1)
 						else:
 							break
 				if x<=y<5:
 					for seed in xrange(1,5-y):
 						if end_map[2][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x+seed,y+seed]):
-							for seeding in xrange(1,seed):
+							for seeding in xrange(1,seed+1):
 								end_map[2][x+seeding][y+seeding] = '%d' %(seed+1)
 						elif end_map[2][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y+seed]):
-							for seeding in xrange(1,seed):
+							for seeding in xrange(1,seed+1):
 								end_map[2][x+seeding][y+seeding] = '%d' %(-seed-1)
 						else:
 							break
@@ -229,20 +230,20 @@ def IsEnded_FullMap(Map):
 				if 5>x>5-y:
 					for seed in xrange(1,5-x):
 						if end_map[3][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x+seed,y-seed]):
-							for seeding in xrange(1,seed):
+							for seeding in xrange(1,seed+1):
 								end_map[3][x+seeding][y-seeding] = '%d' %(seed+1)
 						elif end_map[3][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y-seed]):
-							for seeding in xrange(1,seed):
+							for seeding in xrange(1,seed+1):
 								end_map[3][x+seeding][y-seeding] = '%d' %(-seed-1)
 						else:
 							break
 				if x<=5-y<5:
 					for seed in xrange(1,y):
 						if end_map[3][x][y] == 'seed' and IsConnected_O(Map,[x,y],[x+seed,y-seed]):
-							for seeding in xrange(1,seed):
+							for seeding in xrange(1,seed+1):
 								end_map[3][x+seeding][y-seeding] = '%d' %(seed+1)
 						elif end_map[3][x][y] == 'seed' and IsConnected_X(Map,[x,y],[x+seed,y-seed]):
-							for seeding in xrange(1,seed):
+							for seeding in xrange(1,seed+1):
 								end_map[3][x+seeding][y-seeding] = '%d' %(-seed-1)
 						else:
 							break
@@ -308,140 +309,108 @@ def IsEnded_System(End, wait, stat, turn):
 
 #AI Function
 def aikey(Map, turn):
-	return_position = [-1,-1]
+	#Declare Values
+	position_value = [0 for x in xrange(5)]
+	position_index = 0
+	return_position = [[-1,-1]for x in xrange(5)]
 	virtual_map = [[' 'for x in xrange(6)]for y in xrange(6)]
-	#Initialize Map
+	#Initialize
 	for x in xrange(6):
 		for y in xrange(6):
 			virtual_map[x][y] = Map[x][y]
+	if turn:
+		df_position = 'X'
+		at_position = 'O'
+	if not turn:
+		df_position = 'O'
+		at_position = 'X'
 	#Defence Losing Position
 	#Defence First Order Losing Position
 	for x in xrange(6):
 		for y in xrange(6):
-			if virtual_map[x][y] == ' ' and turn:
-				virtual_map[x][y] = 'X'
+			if virtual_map[x][y] == ' ':
+				virtual_map[x][y] = df_position
 				if IsEnded_Bridge(virtual_map,[x,y]):
-					return [x,y]
+					return_position[0][0],return_position[0][1] = x,y
+					position_value[0] = 1
 				virtual_map[x][y] = ' '
 	#Defence Second Order Losing Position
 	for x in xrange(6):
 		for y in xrange(6):
-			if virtual_map[x][y] == ' ' and turn:
-				virtual_map[x][y] = 'X'
+			if virtual_map[x][y] == ' ':
+				virtual_map[x][y] = df_position
 				for z in xrange(6):
 					for w in xrange(6):
 						if z != x and w != y and Map[z][w] == ' ':
-							virtual_map[z][w] = 'X'
+							virtual_map[z][w] = df_position
 							if IsEnded_Bridge(virtual_map,[z,w]):
-								return [x,y]
+								return_position[1][0],return_position[1][1] = x,y
+								position_value[1] = 0.9
 							virtual_map[z][w] = ' '
 				virtual_map[x][y] = ' '
 	#Attack Winning Position
 	#Attack Third Order Winning Position
 	for x in xrange(6):
 		for y in xrange(6):
-			if virtual_map[x][y] == ' ' and turn:
-				virtual_map[x][y] = 'O'
+			if virtual_map[x][y] == ' ':
+				virtual_map[x][y] = at_position
 				for z in xrange(6):
 					for w in xrange(6):
 						if z != x and w != y and Map[z][w] == ' ':
-							virtual_map[z][w] = 'O'
+							virtual_map[z][w] = at_position
 							for a in xrange(6):
 								for b in xrange(6):
 									if a != x and a != z and b != y and b != w and virtual_map[a][b] == ' ':
-										virtual_map[a][b] = 'O'
+										virtual_map[a][b] = at_position
 										if IsEnded_Bridge(virtual_map,[a,b]):
-											return_position[0],return_position[1] = x,y
+											return_position[2][0],return_position[2][1] = x,y
+											position_value[2] = 0.1
 										virtual_map[a][b] = ' '
 							virtual_map[z][w] = ' '
+				virtual_map[x][y] = ' '
 	#Attack Second Order Winning Position
 	for x in xrange(6):
 		for y in xrange(6):
-			if virtual_map[x][y] == ' ' and turn:
-				virtual_map[x][y] = 'O'
+			if virtual_map[x][y] == ' ':
+				virtual_map[x][y] = at_position
 				for z in xrange(6):
 					for w in xrange(6):
 						if z != x and w != y and Map[z][w] == ' ':
-							virtual_map[z][w] = 'O'
+							virtual_map[z][w] = at_position
 							if IsEnded_Bridge(virtual_map,[z,w]):
-								return_position[0],return_position[1] = x,y
+								return_position[3][0],return_position[3][1] = x,y
+								position_value[3] = 0.5
 							virtual_map[z][w] = ' '
+				virtual_map[x][y] = ' '
 	#Attack First Order Winning Position
 	for x in xrange(6):
 		for y in xrange(6):
-			if virtual_map[x][y] == ' ' and turn:
-				virtual_map[x][y] = 'O'
+			if virtual_map[x][y] == ' ':
+				virtual_map[x][y] = at_position
 				if IsEnded_Bridge(virtual_map,[x,y]):
-					return_position[0],return_position[1] = x,y
+					return_position[4][0],return_position[4][1] = x,y
+					position_value[4] = 1
 				virtual_map[x][y] = ' '
-
-	#Defence Losing Position
-	#Defence First Order Losing Position
-	for x in xrange(6):
-		for y in xrange(6):
-			if virtual_map[x][y] == ' ' and not turn:
-				virtual_map[x][y] = 'O'
-				if IsEnded_Bridge(virtual_map,[x,y]):
-					return [x,y]
-				virtual_map[x][y] = ' '
-	#Defence Second Order Losing Position
-	for x in xrange(6):
-		for y in xrange(6):
-			if virtual_map[x][y] == ' ' and not turn:
-				virtual_map[x][y] = 'O'
-				for z in xrange(6):
-					for w in xrange(6):
-						if z != x and w != y and Map[z][w] == ' ':
-							virtual_map[z][w] = 'O'
-							if IsEnded_Bridge(virtual_map,[z,w]):
-								return [x,y]
-							virtual_map[z][w] = ' '
-				virtual_map[x][y] = ' '
-	#Attack Winning Position
-	#Attack Third Order Winning Position
-	for x in xrange(6):
-		for y in xrange(6):
-			if virtual_map[x][y] == ' ' and not turn:
-				virtual_map[x][y] = 'X'
-				for z in xrange(6):
-					for w in xrange(6):
-						if z != x and w != y and Map[z][w] == ' ':
-							virtual_map[z][w] = 'X'
-							for a in xrange(6):
-								for b in xrange(6):
-									if a != x and a != z and b != y and b != w and virtual_map[a][b] == ' ':
-										virtual_map[a][b] = 'X'
-										if IsEnded_Bridge(virtual_map,[a,b]):
-											return_position[0],return_position[1] = x,y
-										virtual_map[a][b] = ' '
-							virtual_map[z][w] = ' '
-	#Attack Second Order Winning Position
-	for x in xrange(6):
-		for y in xrange(6):
-			if virtual_map[x][y] == ' ' and not turn:
-				virtual_map[x][y] = 'X'
-				for z in xrange(6):
-					for w in xrange(6):
-						if z != x and w != y and Map[z][w] == ' ':
-							virtual_map[z][w] = 'X'
-							if IsEnded_Bridge(virtual_map,[z,w]):
-								return_position[0],return_position[1] = x,y
-							virtual_map[z][w] = ' '
-				#Attack First Order Winning Position
-	for x in xrange(6):
-		for y in xrange(6):
-			if virtual_map[x][y] == ' ' and not turn:
-				virtual_map[x][y] = 'X'
-				if IsEnded_Bridge(virtual_map,[x,y]):
-					return_position[0],return_position[1] = x,y
-				virtual_map[x][y] = ' '
-
-	if return_position == [-1,-1]:
+	#Evaluate position_value
+	if position_value[4] == 1:
+		return return_position[4]
+	elif position_value[0] == 1:
+		return return_position[0]
+	elif not position_value == [0 for x in xrange(5)]:
+		for x in xrange(5):
+			if position_value[x] == 1:
+				position_value[x] = 0
+		position_value[x] = random.random()*position_value[x]
+		position_index = int(max(enumerate(position_value),key=operator.itemgetter(1))[0])
+		return return_position[position_index]
+	else:
 		while True:
-			return_position[0],return_position[1] = random.randrange(0,6), random.randrange(0,6)
-			if Map[return_position[0]][return_position[1]] == ' ':
+			return_position[0][0]=random.randrange(0,6)
+			return_position[0][1]=random.randrange(0,6)
+			if Map[return_position[0][0]][return_position[0][1]] == ' ':
 				break
-	return return_position
+		return return_position[0]
+
 
 
 #Exe
